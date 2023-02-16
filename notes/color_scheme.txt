@@ -1,0 +1,10 @@
+Primary Color:
+
+A shade of blue (#2779BD) to represent stability and trustworthiness in the real estate industry. This could be used for the navigation bar and buttons on the site.
+Secondary Color:
+
+A shade of green (#43A047) to represent growth and positive change in housing prices. This could be used for buttons and call-to-action elements on the site.
+Tertiary Colors:
+
+A shade of grey (#6B7280) to represent neutrality and balance. This could be used for text and background elements on the site.
+A shade of orange (#F59E0B) to represent warmth and comfort, which are often associated with home ownership. This could be used for accents or highlights on the site.
