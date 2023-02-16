@@ -1,0 +1,8 @@
+{
+    "uid": "my-app",
+    "append": true,
+    "watch": true,
+    "script": "node server.js",
+    "sourceDir": ".",
+    "args": []
+  }
