@@ -29,7 +29,7 @@ const HousesPage = () => {
 
             {/* input a table of the homes below */}
 
-            <table className="table-fixed w-1/2">
+            <table className="table-auto w-1/2">
               <thead>
                 <tr>
                   <th className="w-1/6">ID</th>
@@ -47,6 +47,8 @@ const HousesPage = () => {
                     <td className="border px-4 py-2">{home.sq_ft}</td>
                     <td className="border px-4 py-2">{home.num_of_bed}</td>
                     <td className="border px-4 py-2">{home.num_of_bath}</td>
+                    <td className="px-4 py-2">Edit</td>
+                    <td className="px-4 py-2">Delete</td>
                   </tr>
                 ))}
               </tbody>

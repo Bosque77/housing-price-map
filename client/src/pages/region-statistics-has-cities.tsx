@@ -13,12 +13,12 @@ const Regions = () => {
             </p>
             <div className="text-center max-w-screen-lg ">
               <div>
-                <h1 className="text-2xl font-bold mb-4">List of Regions</h1>
+                <h1 className="text-2xl font-bold mb-4">List of Region Statistics and its corresponding cities</h1>
                 <table className="table-auto w-full">
                   <thead>
                     <tr>
                       <th className="px-4 py-2">#</th>
-                      <th className="px-4 py-2">Region</th>
+                      <th className="px-4 py-2">Region Statistic</th>
                       <th className="px-4 py-2">City 1</th>
                       <th className="px-4 py-2">City 2</th>
                       <th></th>
@@ -31,6 +31,7 @@ const Regions = () => {
                       <td className="border px-4 py-2">San Francisco</td>
                       <td className="border px-4 py-2">Berkley</td>
                       <td className="px-4">Edit</td>
+                      <td className="px-4">Delete</td>
                     </tr>
                     <tr>
                       <td className="border px-4 py-2">2</td>
@@ -38,6 +39,7 @@ const Regions = () => {
                       <td className="border px-4 py-2">Long Beach</td>
                       <td className="border px-4 py-2">Los Angelos</td>
                       <td className="px-4">Edit</td>
+                      <td className="px-4">Delete</td>
                     </tr>
                   </tbody>
                 </table>

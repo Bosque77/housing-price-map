@@ -24,9 +24,9 @@ const Header = () => {
           <li>
             <Link
               className="text-white hover:text-gray-200 px-3 py-2"
-              href="/regions"
+              href="/region-statistics-has-cities"
             >
-              Regions
+              Region Statistics Has Cities
             </Link>
           </li>
           <li>

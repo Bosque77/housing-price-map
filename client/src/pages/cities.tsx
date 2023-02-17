@@ -32,6 +32,7 @@ const Cities = () => {
                         <td className="border px-4 py-2">{city.city_name}</td>
                         <td className="border px-4 py-2">{city.state}</td>
                         <td className="px-4">Edit</td>
+                        <td className="px-4">Delete</td>
                       </tr>
                     ))}
                   </tbody>

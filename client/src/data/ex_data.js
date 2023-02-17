@@ -145,14 +145,14 @@ export const region_statistics_has_cities = [
 ];
 
 export const zillow_estimates = [
-  { zillow_price_id: 1, zestimate: 2245681, date: "2022-01-01", home_id: 1 },
-  { zillow_price_id: 2, zestimate: 1245341, date: "2022-01-01", home_id: 2 },
-  { zillow_price_id: 3, zestimate: 1245481, date: "2022-01-01", home_id: 3 },
-  { zillow_price_id: 4, zestimate: 7245681, date: "2022-01-01", home_id: 4 },
-  { zillow_price_id: 5, zestimate: 945681, date: "2022-01-01", home_id: 5 },
-  { zillow_price_id: 6, zestimate: 4245681, date: "2022-01-01", home_id: 6 },
-  { zillow_price_id: 7, zestimate: 3245681, date: "2022-01-01", home_id: 7 },
-  { zillow_price_id: 8, zestimate: 1245681, date: "2022-01-01", home_id: 8 },
+  { zillow_estimate_id: 1, zestimate: 2245681, date: "2022-01-01", home_id: 1 },
+  { zillow_estimate_id: 2, zestimate: 1245341, date: "2022-01-01", home_id: 2 },
+  { zillow_estimate_id: 3, zestimate: 1245481, date: "2022-01-01", home_id: 3 },
+  { zillow_estimate_id: 4, zestimate: 7245681, date: "2022-01-01", home_id: 4 },
+  { zillow_estimate_id: 5, zestimate: 945681, date: "2022-01-01", home_id: 5 },
+  { zillow_estimate_id: 6, zestimate: 4245681, date: "2022-01-01", home_id: 6 },
+  { zillow_estimate_id: 7, zestimate: 3245681, date: "2022-01-01", home_id: 7 },
+  { zillow_estimate_id: 8, zestimate: 1245681, date: "2022-01-01", home_id: 8 },
 ];
 
 export const homes = [
