@@ -17,17 +17,17 @@ export const region = [
   { region_id: 3, region_name: "Los Angeles Metro" },
 ]
 
-// export const region_has_cities = [
-//   { region_has_cities_id: 1, region_id: 1, city_id: 1 },
-//   { region_has_cities_id: 2,  region_id: 2, city_id: 2 },
-//   { region_has_cities_id: 3,  region_id: 1, city_id: 9 },
-// ];
-
-const region_has_cities = [
-  { region_has_cities_id: 1, region_name: "Bay Area", city_name: "San Francisco" },
-  { region_has_cities_id: 2, region_name: "New York Metro", city_name: "New York" },
-  { region_has_cities_id: 3, region_name: "Bay Area", city_name: "Berkley" },
+export const region_has_cities = [
+  { region_has_cities_id: 1, region_id: 1, city_id: 1 },
+  { region_has_cities_id: 2,  region_id: 2, city_id: 2 },
+  { region_has_cities_id: 3,  region_id: 1, city_id: 9 },
 ];
+
+// const region_has_cities = [
+//   { region_has_cities_id: 1, region_name: "Bay Area", city_name: "San Francisco" },
+//   { region_has_cities_id: 2, region_name: "New York Metro", city_name: "New York" },
+//   { region_has_cities_id: 3, region_name: "Bay Area", city_name: "Berkley" },
+// ];
 
 export const region_statistics = [
   {
@@ -131,18 +131,7 @@ export const region_statistics = [
   },
 ];
 
-export const region_statistics_has_cities = [
-  { region_statistics_has_cities_id: 1, city_id: 1, region_statistic_id: 1 },
-  { region_statistics_has_cities_id: 2, city_id: 2, region_statistic_id: 2 },
-  { region_statistics_has_cities_id: 3, city_id: 3, region_statistic_id: 3 },
-  { region_statistics_has_cities_id: 4, city_id: 4, region_statistic_id: 4 },
-  { region_statistics_has_cities_id: 5, city_id: 5, region_statistic_id: 5 },
-  { region_statistics_has_cities_id: 6, city_id: 6, region_statistic_id: 6 },
-  { region_statistics_has_cities_id: 7, city_id: 7, region_statistic_id: 7 },
-  { region_statistics_has_cities_id: 8, city_id: 8, region_statistic_id: 8 },
-  { region_statistics_has_cities_id: 9, city_id: 6, region_statistic_id: 9 },
-  { region_statistics_has_cities_id: 10, city_id: 8, region_statistic_id: 9 },
-];
+
 
 export const zillow_estimates = [
   { zillow_estimate_id: 1, zestimate: 2245681, date: "2022-01-01", home_id: 1 },

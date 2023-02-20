@@ -2,23 +2,44 @@ import Header from "@/components/Header";
 import Head from "next/head";
 import SideNav from "@/components/SidNav";
 
+import CreateHouse from "@/components/CreateHouse";
+
 import { cities, homes } from "@/data/ex_data.js";
+import { useState } from "react";
 
 const HousesPage = () => {
+
+  const [showCreateHouse, setShowCreateHouse] = useState(true);
+
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
       <div className="flex flex-row h-screen ">
         <SideNav />
         <div className="flex flex-row justify-center w-full bg-gray-50">
-          <HousesComponent />
+          <HousesComponent setShowCreateHouse = {setShowCreateHouse}/>
         </div>
+        {showCreateHouse && <CreateHouse setShowCreateHouse = {setShowCreateHouse} />}
       </div>
+      
+     
     </div>
   );
 };
 
-const HousesComponent = () => {
+interface prop {
+  setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
+
+const HousesComponent = ({setShowCreateHouse}:prop) => {
+
+  const onShowHouse = ()  => {
+    console.log('on show house')
+    setShowCreateHouse(true)
+  }
+
+
   return (
     <div>
       <div>
@@ -59,8 +80,7 @@ const HousesComponent = () => {
                   ))}
                 </tbody>
               </table>
-              <button className="rounded shadow bg-slate-200 px-4 py-2 mt-6 hover:bg-black hover:text-white active:scale-95">
-                {" "}
+              <button className="rounded shadow bg-slate-200 px-4 py-2 mt-6 hover:bg-black hover:text-white active:scale-95" onClick={() => onShowHouse()}>
                 Add House
               </button>
             </div>
