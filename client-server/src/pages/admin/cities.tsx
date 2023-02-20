@@ -5,14 +5,9 @@ import { cities } from "@/data/ex_data.js";
 const Cities = () => {
   return (
     <div>
-      <Header />
-      <div className="bg-gray-100 h-screen">
+      <div className="w-full h-screen">
         <div className="container mx-auto py-12">
           <div className="flex flex-col items-center justify-center">
-            <p className="text-center max-w-screen-lg mb-8">
-              This page will be used to define the regions that we will be
-              tracking.
-            </p>
             <div className="text-center max-w-screen-lg ">
               <div>
                 <h1 className="text-2xl font-bold mb-4">List of Cities</h1>

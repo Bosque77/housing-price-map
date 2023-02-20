@@ -16,6 +16,14 @@ const Header = () => {
           <li>
             <Link
               className="text-white hover:text-gray-200 px-3 py-2"
+              href="/admin"
+            >
+              Admin
+            </Link>
+          </li>
+          {/* <li>
+            <Link
+              className="text-white hover:text-gray-200 px-3 py-2"
               href="/houses"
             >
               Houses
@@ -52,7 +60,7 @@ const Header = () => {
             >
               Zillow Estimates
             </Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </header>

@@ -170,7 +170,7 @@ export const homes = [
   },
   {
     home_id: 2,
-    street: "456 Elm St",
+    street: "456 Elm St from the burrow of the dog",
     sq_ft: 1500,
     num_of_bed: 3,
     num_of_bath: 2,
