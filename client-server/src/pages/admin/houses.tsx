@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const HousesPage = () => {
 
-  const [showCreateHouse, setShowCreateHouse] = useState(true);
+  const [showCreateHouse, setShowCreateHouse] = useState(false);
 
   return (
     <div className="bg-gray-50 h-screen">
