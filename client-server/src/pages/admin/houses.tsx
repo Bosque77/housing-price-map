@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Head from "next/head";
 import SideNav from "@/components/SidNav";
-
+import { House } from "types";
 import CreateHouse from "@/components/CreateHouse";
 
 import { cities, homes } from "@/data/ex_data.js";
@@ -9,7 +9,11 @@ import { useState } from "react";
 
 const HousesPage = () => {
 
+
+
   const [showCreateHouse, setShowCreateHouse] = useState(false);
+  const [currentHouse, setCurrentHouse] = useState(undefined);
+
 
   return (
     <div className="bg-gray-50 h-screen">
@@ -17,9 +21,9 @@ const HousesPage = () => {
       <div className="flex flex-row h-screen ">
         <SideNav />
         <div className="flex flex-row justify-center w-full bg-gray-50">
-          <HousesComponent setShowCreateHouse = {setShowCreateHouse}/>
+          <HousesComponent setShowCreateHouse = {setShowCreateHouse} setCurrentHouse={setCurrentHouse}/>
         </div>
-        {showCreateHouse && <CreateHouse setShowCreateHouse = {setShowCreateHouse} />}
+        {showCreateHouse && <CreateHouse setShowCreateHouse = {setShowCreateHouse} currentHouse={currentHouse}/>}
       </div>
       
      
@@ -29,13 +33,20 @@ const HousesPage = () => {
 
 interface prop {
   setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>,
+  setCurrentHouse: React.Dispatch<React.SetStateAction<any>>,
 }
 
-
-const HousesComponent = ({setShowCreateHouse}:prop) => {
+const HousesComponent = ({setShowCreateHouse, setCurrentHouse}:prop) => {
 
   const onShowHouse = ()  => {
     console.log('on show house')
+    setShowCreateHouse(true)
+  }
+
+  const editHouse = (house: House) => {
+    console.log('inside editHouse')
+    console.log(house)
+    setCurrentHouse(house)
     setShowCreateHouse(true)
   }
 
@@ -74,8 +85,8 @@ const HousesComponent = ({setShowCreateHouse}:prop) => {
                       <td className="border px-4 py-2">{home.sq_ft}</td>
                       <td className="border px-4 py-2">{home.num_of_bed}</td>
                       <td className="border px-4 py-2">{home.num_of_bath}</td>
-                      <td className="px-4 py-2">Edit</td>
-                      <td className="px-4 py-2">Delete</td>
+                      <td className="px-4 py-2 " ><button className="hover:underline hover:underline-offset-1" onClick={() => editHouse(home)}>Edit</button></td>
+                      <td className="px-4 py-2"><button className="hover:underline hover:underline-offset-1">Delete</button></td>
                     </tr>
                   ))}
                 </tbody>

@@ -1,14 +1,4 @@
-export const cities = [
-  { city_id: 1, city_name: "San Francisco", state: "California" },
-  { city_id: 2, city_name: "New York", state: "New York" },
-  { city_id: 3, city_name: "Los Angeles", state: "California" },
-  { city_id: 4, city_name: "Chicago", state: "Illinois" },
-  { city_id: 5, city_name: "Seattle", state: "Washington" },
-  { city_id: 6, city_name: "Houston", state: "Texas" },
-  { city_id: 7, city_name: "Miami", state: "Florida" },
-  { city_id: 8, city_name: "Dallas", state: "Texas" },
-  { city_id: 9, city_name: "Berkley", state: "California" },
-];
+
 
 
 export const region = [
@@ -144,6 +134,19 @@ export const zillow_estimates = [
   { zillow_estimate_id: 8, zestimate: 1245681, date: "2022-01-01", home_id: 8 },
 ];
 
+
+export const cities = [
+  { city_id: 1, city_name: "San Francisco", state: "California" },
+  { city_id: 2, city_name: "New York", state: "New York" },
+  { city_id: 3, city_name: "Los Angeles", state: "California" },
+  { city_id: 4, city_name: "Chicago", state: "Illinois" },
+  { city_id: 5, city_name: "Seattle", state: "Washington" },
+  { city_id: 6, city_name: "Houston", state: "Texas" },
+  { city_id: 7, city_name: "Miami", state: "Florida" },
+  { city_id: 8, city_name: "Dallas", state: "Texas" },
+  { city_id: 9, city_name: "Berkley", state: "California" },
+];
+
 export const homes = [
   {
     home_id: 1,
@@ -155,6 +158,7 @@ export const homes = [
     lat: 37.123,
     lng: -122.456,
     zip: "94107",
+    city: "San Fancisco",
     city_id: 1,
   },
   {
@@ -167,6 +171,7 @@ export const homes = [
     lat: 40.789,
     lng: -73.012,
     zip: "10001",
+    city: "New York",
     city_id: 2,
   },
   {
@@ -179,6 +184,7 @@ export const homes = [
     lat: 34.567,
     lng: -118.91,
     zip: "90001",
+    city: "Los Angeles",
     city_id: 3,
   },
   {
@@ -191,6 +197,7 @@ export const homes = [
     lat: 41.876,
     lng: -87.654,
     zip: "60601",
+    city: "Chicago",
     city_id: 4,
   },
   {
@@ -203,6 +210,7 @@ export const homes = [
     lat: 47.89,
     lng: -122.123,
     zip: "98107",
+    city: "Seattle",
     city_id: 5,
   },
   {
@@ -215,6 +223,7 @@ export const homes = [
     lat: 29.456,
     lng: -95.678,
     zip: "77001",
+    city: "Houston",
     city_id: 6,
   },
   {
@@ -227,6 +236,7 @@ export const homes = [
     lat: 25.123,
     lng: -80.456,
     zip: "33101",
+    city: "Miami",
     city_id: 7,
   },
   {
@@ -239,6 +249,7 @@ export const homes = [
     lat: 32.789,
     lng: -96.654,
     zip: "75001",
+    city: "Dallas",
     city_id: 8,
   },
 ];

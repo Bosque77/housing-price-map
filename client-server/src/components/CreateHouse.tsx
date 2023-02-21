@@ -1,24 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { House } from "types";
+
 
 interface prop {
   setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>;
+  currentHouse: House | undefined;
 }
 
-const CreateHouse = ({ setShowCreateHouse }: prop) => {
-  const [street, setStreet] = useState("");
-  const [zip, setZip] = useState("");
-  const [sq_ft, setSqft] = useState("");
-  const [num_of_bed, setBeds] = useState("");
-  const [num_of_bath, setBaths] = useState("");
-  const [city, setCity] = useState("");
-  const [year_built, setYear] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
+const CreateHouse = ({ setShowCreateHouse, currentHouse }: prop) => {
+
+    const [street, setStreet] = useState("");
+    const [zip, setZip] = useState("");
+    const [sq_ft, setSqft] = useState("");
+    const [num_of_bed, setBeds] = useState("");
+    const [num_of_bath, setBaths] = useState("");
+    const [city, setCity] = useState("");
+    const [year_built, setYear] = useState("");
+    const [lat, setLat] = useState("");
+    const [lng, setLng] = useState("");
+
+    useEffect(() => {
+        if (currentHouse){
+            
+            setStreet(currentHouse.street)
+            setZip(currentHouse.zip)
+            setSqft(currentHouse.sq_ft.toString())
+            setBeds(currentHouse.num_of_bed.toString())
+            setBaths(currentHouse.num_of_bath.toString())
+            setCity(currentHouse.city.toString())
+            setYear(currentHouse.year_built.toString())
+            setLat(currentHouse.lat.toString())
+            setLng(currentHouse.lng.toString())
+        }
+    }, [currentHouse])
+       
+
 
   return (
     <div className="fixed h-screen w-screen flex items-center justify-center ">
       <div className="bg-white px-8 py-8 z-10 rounded flex flex-col items-center">
-        <h2 className="text-xl text-center">Add House</h2>
+        {currentHouse ? <h2 className="text-xl text-center">Edit House</h2>:
+         <h2 className="text-xl text-center">Add House</h2>}
         <div className="grid grid-cols-2 gap-x-2 gap-y-2 mt-6">
           <div className="flex flex-col">
             <label
@@ -168,7 +190,7 @@ const CreateHouse = ({ setShowCreateHouse }: prop) => {
                 type="number"
                 name="lng"
                 id="lng"
-                value={lat}
+                value={lng}
                 onChange={(e) => setLng(e.target.value.toString())}
                 className=" border rounded-md pl-2 py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
                 placeholder="Longitude"
