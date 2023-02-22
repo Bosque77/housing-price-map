@@ -3,6 +3,7 @@ import Head from "next/head";
 import SideNav from "@/components/SidNav";
 import { House } from "types";
 import CreateHouse from "@/components/CreateHouse";
+import DeleteModal from "@/components/DeleteModal";
 
 import { cities, homes } from "@/data/ex_data.js";
 import { useState } from "react";
@@ -13,6 +14,9 @@ const HousesPage = () => {
 
   const [showCreateHouse, setShowCreateHouse] = useState(false);
   const [currentHouse, setCurrentHouse] = useState(undefined);
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [shouldDelete, setShouldDelete] = useState(false)
+  const [should_delete_object_name, setShouldDeleteObjectName] = useState("")
 
 
   return (
@@ -21,9 +25,11 @@ const HousesPage = () => {
       <div className="flex flex-row h-screen ">
         <SideNav />
         <div className="flex flex-row justify-center w-full bg-gray-50">
-          <HousesComponent setShowCreateHouse = {setShowCreateHouse} setCurrentHouse={setCurrentHouse}/>
+          <HousesComponent setShowCreateHouse = {setShowCreateHouse} setCurrentHouse={setCurrentHouse} setShowDeleteModal={setShowDeleteModal}/>
         </div>
         {showCreateHouse && <CreateHouse setShowCreateHouse = {setShowCreateHouse} currentHouse={currentHouse}/>}
+        {showDeleteModal && <DeleteModal setShowDeleteModal = {setShowDeleteModal} setShouldDelete={setShouldDelete}/>}
+
       </div>
       
      
@@ -33,10 +39,14 @@ const HousesPage = () => {
 
 interface prop {
   setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>,
+  setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>,
+
   setCurrentHouse: React.Dispatch<React.SetStateAction<any>>,
 }
 
-const HousesComponent = ({setShowCreateHouse, setCurrentHouse}:prop) => {
+const HousesComponent = ({setShowCreateHouse, setCurrentHouse, setShowDeleteModal}:prop) => {
+
+
 
   const onShowHouse = ()  => {
     console.log('on show house')
@@ -48,6 +58,10 @@ const HousesComponent = ({setShowCreateHouse, setCurrentHouse}:prop) => {
     console.log(house)
     setCurrentHouse(house)
     setShowCreateHouse(true)
+  }
+
+  const onDelete = (house: House) => {
+    setShowDeleteModal(true)
   }
 
 
@@ -86,18 +100,19 @@ const HousesComponent = ({setShowCreateHouse, setCurrentHouse}:prop) => {
                       <td className="border px-4 py-2">{home.num_of_bed}</td>
                       <td className="border px-4 py-2">{home.num_of_bath}</td>
                       <td className="px-4 py-2 " ><button className="hover:underline hover:underline-offset-1" onClick={() => editHouse(home)}>Edit</button></td>
-                      <td className="px-4 py-2"><button className="hover:underline hover:underline-offset-1">Delete</button></td>
+                      <td className="px-4 py-2"><button className="hover:underline hover:underline-offset-1" onClick = {() => onDelete(home)}>Delete</button></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <button className="rounded shadow bg-slate-200 px-4 py-2 mt-6 hover:bg-black hover:text-white active:scale-95" onClick={() => onShowHouse()}>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={() => onShowHouse()}>
                 Add House
               </button>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 };
