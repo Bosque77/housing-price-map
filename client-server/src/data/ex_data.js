@@ -1,23 +1,39 @@
-
-
-
-export const region = [
-  { region_id: 1, region_name: "Bay Area" },
-  { region_id: 2, region_name: "New York Metro" },
-  { region_id: 3, region_name: "Los Angeles Metro" },
-]
-
-export const region_has_cities = [
-  { region_has_cities_id: 1, region_id: 1, city_id: 1 },
-  { region_has_cities_id: 2,  region_id: 2, city_id: 2 },
-  { region_has_cities_id: 3,  region_id: 1, city_id: 9 },
+export const cities = [
+  { city_id: 1, city_name: "San Francisco", state: "California" },
+  { city_id: 2, city_name: "New York", state: "New York" },
+  { city_id: 3, city_name: "Berkley", state: "California" },
+  { city_id: 8, city_name: "Dallas", state: "Texas" },
 ];
 
-// const region_has_cities = [
-//   { region_has_cities_id: 1, region_name: "Bay Area", city_name: "San Francisco" },
-//   { region_has_cities_id: 2, region_name: "New York Metro", city_name: "New York" },
-//   { region_has_cities_id: 3, region_name: "Bay Area", city_name: "Berkley" },
-// ];
+export const regions = [
+  {
+    region_id: 1,
+    region_name: "Bay Area",
+    cities: ["San Francisco", "Berkley"],
+    region_description: `
+      The Bay Area is a metropolitan region located in Northern California, USA, that encompasses the cities and surrounding areas surrounding the San Francisco Bay. The region is known for its diverse culture, innovative technology industry, and stunning natural beauty.
+
+      The Bay Area is home to several major cities, including San Francisco, Oakland, and San Jose, as well as many smaller towns and suburbs. `,
+  },
+  {
+    region_id: 2,
+    region_name: "New York",
+    cities: ["New York City"],
+    region_description: `
+    New York is a bustling metropolitan region located in the northeastern part of the United States, known for its iconic skyline, diverse culture, and vibrant energy. 
+    The region is home to the city of New York, which is made up of five boroughs: Manhattan, Brooklyn, Queens, the Bronx, and Staten Island. 
+    `,
+  },
+  {
+    region_id: 3,
+    region_name: "Texas Triangle",
+    cities: ["Dallas"],
+    region_description: `
+    The Texas Triangle is a region in the southern part of the United States that encompasses several major cities, 
+    including Houston, Dallas, and Austin, as well as many smaller towns and suburbs.
+    `,
+  },
+];
 
 export const region_statistics = [
   {
@@ -64,64 +80,7 @@ export const region_statistics = [
     median_housing_price: 500000,
     date: "2022-01-01",
   },
-  {
-    region_statistic_id: 5,
-    region_name: "Pacific Northwest",
-    location_description: "Seattle and surrounding cities",
-    avg_price_per_sq_ft: 450,
-    mean_housing_price: 750000,
-    five_year_price_gradient: 0.04,
-    ten_year_price_gradient: 0.08,
-    median_housing_price: 650000,
-    date: "2022-01-01",
-  },
-  {
-    region_statistic_id: 6,
-    region_name: "Gulf Coast",
-    location_description: "Houston and surrounding cities",
-    avg_price_per_sq_ft: 350,
-    mean_housing_price: 700000,
-    five_year_price_gradient: 0.03,
-    ten_year_price_gradient: 0.06,
-    median_housing_price: 600000,
-    date: "2022-01-01",
-  },
-  {
-    region_statistic_id: 7,
-    region_name: "South Florida",
-    location_description: "Miami and surrounding cities",
-    avg_price_per_sq_ft: 500,
-    mean_housing_price: 800000,
-    five_year_price_gradient: 0.05,
-    ten_year_price_gradient: 0.1,
-    median_housing_price: 700000,
-    date: "2022-01-01",
-  },
-  {
-    region_statistic_id: 8,
-    region_name: "North Texas",
-    location_description: "Dallas and surrounding cities",
-    avg_price_per_sq_ft: 400,
-    mean_housing_price: 700000,
-    five_year_price_gradient: 0.04,
-    ten_year_price_gradient: 0.08,
-    median_housing_price: 600000,
-    date: "2022-01-01",
-  },
-  {
-    region_statistic_id: 9,
-    region_name: "Texas Triangle",
-    location_description: "Houston and Dallas",
-    avg_price_per_sq_ft: 375,
-    mean_housing_price: 700000,
-    five_year_price_gradient: 0.037,
-    ten_year_price_gradient: 0.074,
-    median_housing_price: 650000,
-    date: "2022-01-01",
-  },
 ];
-
-
 
 export const zillow_estimates = [
   { zillow_estimate_id: 1, zestimate: 2245681, date: "2022-01-01", home_id: 1 },
@@ -134,18 +93,7 @@ export const zillow_estimates = [
   { zillow_estimate_id: 8, zestimate: 1245681, date: "2022-01-01", home_id: 8 },
 ];
 
-
-export const cities = [
-  { city_id: 1, city_name: "San Francisco", state: "California" },
-  { city_id: 2, city_name: "New York", state: "New York" },
-  { city_id: 3, city_name: "Los Angeles", state: "California" },
-  { city_id: 4, city_name: "Chicago", state: "Illinois" },
-  { city_id: 5, city_name: "Seattle", state: "Washington" },
-  { city_id: 6, city_name: "Houston", state: "Texas" },
-  { city_id: 7, city_name: "Miami", state: "Florida" },
-  { city_id: 8, city_name: "Dallas", state: "Texas" },
-  { city_id: 9, city_name: "Berkley", state: "California" },
-];
+export const cities_for_a_region = ["San Francisco", "Berkley"];
 
 export const homes = [
   {
@@ -199,57 +147,5 @@ export const homes = [
     zip: "60601",
     city: "Chicago",
     city_id: 4,
-  },
-  {
-    home_id: 5,
-    street: "333 Pine St",
-    sq_ft: 1400,
-    num_of_bed: 3,
-    num_of_bath: 2,
-    year_built: 1985,
-    lat: 47.89,
-    lng: -122.123,
-    zip: "98107",
-    city: "Seattle",
-    city_id: 5,
-  },
-  {
-    home_id: 6,
-    street: "444 Cedar St",
-    sq_ft: 1600,
-    num_of_bed: 4,
-    num_of_bath: 2,
-    year_built: 1975,
-    lat: 29.456,
-    lng: -95.678,
-    zip: "77001",
-    city: "Houston",
-    city_id: 6,
-  },
-  {
-    home_id: 7,
-    street: "555 Maple St",
-    sq_ft: 1800,
-    num_of_bed: 4,
-    num_of_bath: 3,
-    year_built: 1965,
-    lat: 25.123,
-    lng: -80.456,
-    zip: "33101",
-    city: "Miami",
-    city_id: 7,
-  },
-  {
-    home_id: 8,
-    street: "666 Cedar St",
-    sq_ft: 1700,
-    num_of_bed: 3,
-    num_of_bath: 2,
-    year_built: 1990,
-    lat: 32.789,
-    lng: -96.654,
-    zip: "75001",
-    city: "Dallas",
-    city_id: 8,
   },
 ];
