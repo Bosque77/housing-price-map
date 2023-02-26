@@ -19,11 +19,14 @@ const ZillowEstimates = () => {
             <div className="text-center max-w-screen-lg ">
               <div>
                 <h1 className="text-2xl font-bold mb-4">List of Zestimates</h1>
-                <div className="flex flex-col">
+                <div className="flex flex-col bg-white px-4 py-4 shadow">
                   <label>Lookup House</label>
-                  <input className="mt-2" type="text" placeholder="City" />
-                  <input className="mt-2" type="text" placeholder="State" />
-                  <input className="mt-2" type="text" placeholder="Zipcode" />
+                  <input className=" border rounded-md pl-2 pr-12 py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
+           type="text" placeholder="City" />
+                  <input className=" border rounded-md pl-2 pr-12 py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
+           type="text" placeholder="State" />
+                  <input className=" border rounded-md pl-2 pr-12 py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
+           type="text" placeholder="Zipcode" />
                   <div className="my-4">Currently Displaying House 1</div>
                   <table className=" table-auto w-full">
                     <thead>

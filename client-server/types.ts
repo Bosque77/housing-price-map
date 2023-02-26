@@ -20,5 +20,6 @@ export interface City {
 export interface Region {
     region_id?: number,
     region_name: string,
+    cities: string[]
     region_description: string
 }

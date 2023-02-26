@@ -11,6 +11,10 @@ const RegionsPage = () => {
     undefined
   );
 
+  const insertCities = (cities: any) => {
+    return cities.map((city: any) => <div className="px-4 py-2 border">{city}</div>);
+  };
+
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
@@ -19,11 +23,19 @@ const RegionsPage = () => {
         <div className="flex flex-col items-center w-full bg-gray-50 mx-auto">
           <RegionsComponent setCurrentRegion={setCurrentRegion} />
           {currentRegion && (
-            <div className="flex flex-col w-3/4">
-              <h2 className="text-lg font-bold ">{currentRegion.region_name}</h2>
-              <div className="mt-4"> {currentRegion.region_description}</div>
-              <div className="">
+            <div className="flex flex-col w-3/4 bg-white px-4 py-4 shadow">
+              <h2 className="text-xl font-bold ">
+                {currentRegion.region_name}
+              </h2>
+              <textarea
+                className="mt-4 p-2 w-full rounded-lg outline outline-offset-2 outline-1 outline-blue-500
 
+                h-32"
+                value={currentRegion.region_description}
+              />
+              <label className="mt-4 text-lg font-bold">Cities</label>
+              <div className="grid grid-flow-col auto-cols-max gap-x-4 gap-y-4 w-1/2 mt-4">
+                {insertCities(currentRegion.cities)}
               </div>
             </div>
           )}
