@@ -36,7 +36,8 @@ export default async function asynchandler(
   
       res.status(200).json(rows);
     }catch(err: any){
-      errorHandler(err , req, res);
+      // errorHandler(err , req, res);
+      res.status(500).send('error connecting to db')
     }
 
   } else if (req.method === "POST") {
