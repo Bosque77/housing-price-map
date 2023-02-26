@@ -28,6 +28,7 @@ export default async function asynchandler(
       // Execute every query in an asynchronous manner, we want each query to finish before the next one starts
   
       const conn = await db.pool.getConnection();
+      console.log(conn)
       await conn.query(query1);
       await conn.query(query2);
       await conn.query(query3);
