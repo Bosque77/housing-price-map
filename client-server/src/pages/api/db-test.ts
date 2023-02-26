@@ -1,43 +1,46 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next";
+import {errorHandler} from "./middleware";
+
 
 type Data = {
-  name: string
-}
-
+  name: string;
+};
 
 // Database
-var db = require('./db-connector')
+var db = require("./db-connector");
 
-export default function handler(
+export default async function asynchandler(
   req: NextApiRequest,
-  res: NextApiResponse<String>
+  res: NextApiResponse<Data | String>
 ) {
-          // Define our queries
-          const query1 = 'DROP TABLE IF EXISTS diagnostic;';
-          const query2 = 'CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);';
-          const query3 = 'INSERT INTO diagnostic (text) VALUES ("MySQL is working!")';
-          const query4 = 'SELECT * FROM diagnostic;';
+  if (req.method === "GET") {
+
+    try{
+      console.log("inside the db connector");
+      // Define our queries
+      const query1 = "DROP TABLE IF EXISTS diagnostic;";
+      const query2 =
+        "CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);";
+      const query3 = 'INSERT INTO diagnostic (text) VALUES ("MySQL is working!")';
+      const query4 = "SELECT * FROM diagnostic;";
   
-          // Execute every query in an asynchronous manner, we want each query to finish before the next one starts
+      // Execute every query in an asynchronous manner, we want each query to finish before the next one starts
   
-          // DROP TABLE...
-          db.pool.query(query1, function (_err: any, _results: any, _fields: any){
+      const conn = await db.pool.getConnection();
+      await conn.query(query1);
+      await conn.query(query2);
+      await conn.query(query3);
+      const rows = await conn.query(query4);
   
-              // CREATE TABLE...
-              db.pool.query(query2, function(err: any, results: any, fields: any){
-  
-                  // INSERT INTO...
-                  db.pool.query(query3, function(err: any, results: any, fields: any){
-  
-                      // SELECT *...
-                      db.pool.query(query4, function(err: any, results: any, fields: any){
-  
-                          // Send the results to the browser
-                          let base = "<h1>MySQL Results:</h1>"
-                          res.send(base + JSON.stringify(results));
-                      });
-                  });
-              });
-          });
+      res.status(200).json(rows);
+    }catch(err: any){
+      errorHandler(err , req, res);
+    }
+
+  } else if (req.method === "POST") {
+      res.status(200).send('going to post')
+  } else {
+    res.status(405).end();
+  }
 }

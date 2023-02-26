@@ -15,6 +15,7 @@
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "forever": "^4.0.3",
+    "mariadb": "^3.1.0",
     "mysql": "^2.18.1",
     "next": "13.1.6",
     "react": "18.2.0",
