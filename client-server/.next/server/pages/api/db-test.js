@@ -2,7 +2,7 @@
 (() => {
 var exports = {};
 exports.id = 901;
-exports.ids = [901,700,5];
+exports.ids = [901,700];
 exports.modules = {
 
 /***/ 155:
@@ -20,11 +20,11 @@ module.exports = require("mariadb");
 const mariadb = __webpack_require__(155);
 // Create a 'connection pool' using the provided credentials
 const pool = mariadb.createPool({
-    host: "database-2.cfwdc7czuhxu.us-west-1.rds.amazonaws.com",
-    user: "admin",
-    password: "tester123!",
-    database: "innodb",
-    connectionLimit: 5
+    host: "classmysql.engr.oregonstate.edu",
+    user: "cs340_schwartf",
+    password: "0387",
+    database: "cs340_schwartf",
+    connectionLimit: 10
 });
 // Export it for use in our application
 module.exports.pool = pool;
@@ -39,9 +39,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ asynchandler)
 /* harmony export */ });
-/* harmony import */ var _middleware__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5471);
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 // Database
 var db = __webpack_require__(6698);
 async function asynchandler(req, res) {
@@ -62,30 +60,14 @@ async function asynchandler(req, res) {
             const rows = await conn.query(query4);
             res.status(200).json(rows);
         } catch (err) {
-            (0,_middleware__WEBPACK_IMPORTED_MODULE_0__.errorHandler)(err, req, res);
+            // errorHandler(err , req, res);
+            res.status(500).send("error connecting to db");
         }
     } else if (req.method === "POST") {
         res.status(200).send("going to post");
     } else {
         res.status(405).end();
     }
-}
-
-
-/***/ }),
-
-/***/ 5471:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "errorHandler": () => (/* binding */ errorHandler)
-/* harmony export */ });
-function errorHandler(err, req, res) {
-    console.error(err);
-    res.status(500).json({
-        message: "An error occurred"
-    });
 }
 
 

@@ -20,11 +20,11 @@ module.exports = require("mariadb");
 const mariadb = __webpack_require__(155);
 // Create a 'connection pool' using the provided credentials
 const pool = mariadb.createPool({
-    host: "database-2.cfwdc7czuhxu.us-west-1.rds.amazonaws.com",
-    user: "admin",
-    password: "tester123!",
-    database: "innodb",
-    connectionLimit: 5
+    host: "classmysql.engr.oregonstate.edu",
+    user: "cs340_schwartf",
+    password: "0387",
+    database: "cs340_schwartf",
+    connectionLimit: 10
 });
 // Export it for use in our application
 module.exports.pool = pool;
