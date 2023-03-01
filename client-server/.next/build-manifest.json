@@ -1,90 +1,34 @@
 {
   "polyfillFiles": [
-    "static/chunks/polyfills-c67a75d1b6f99dc8.js"
+    "static/chunks/polyfills.js"
   ],
-  "devFiles": [],
-  "ampDevFiles": [],
+  "devFiles": [
+    "static/chunks/react-refresh.js"
+  ],
+  "ampDevFiles": [
+    "static/chunks/webpack.js",
+    "static/chunks/amp.js"
+  ],
   "lowPriorityFiles": [
-    "static/UsHL3K6m6RonrBdUhqOL3/_buildManifest.js",
-    "static/UsHL3K6m6RonrBdUhqOL3/_ssgManifest.js"
+    "static/development/_buildManifest.js",
+    "static/development/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "pages": {
-    "/": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/index-97a3a6410d0d31e9.js"
-    ],
     "/_app": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/css/13dcb1e828421ace.css",
-      "static/chunks/pages/_app-bf55c49910772dbb.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_app.js"
     ],
     "/_error": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/pages/_error-8353112a01355ec2.js"
-    ],
-    "/admin": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin-b922351eac2d6e5f.js"
-    ],
-    "/admin/cities": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/cities-db0f21a41f553c40.js"
-    ],
-    "/admin/heatmap": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/heatmap-8c8485278364cc6b.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
     ],
     "/admin/houses": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/houses-d0b4659e007d10e1.js"
-    ],
-    "/admin/region-statistics": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/region-statistics-3b360590eb3266ab.js"
-    ],
-    "/admin/region-statistics-has-cities": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/region-statistics-has-cities-246391d408f77be6.js"
-    ],
-    "/admin/regions": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/regions-7f464f10680c7f72.js"
-    ],
-    "/admin/zillow-estimates": [
-      "static/chunks/webpack-8fa1640cc84ba8fe.js",
-      "static/chunks/framework-cda2f1305c3d9424.js",
-      "static/chunks/main-f11614d8aa7ee555.js",
-      "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/zillow-estimates-7edd4814d9775c91.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/houses.js"
     ]
   },
   "ampFirstPages": []
