@@ -53,25 +53,23 @@ app.get(
   })
 );
 
-app.post(
-  "/Homes",
-  asyncHandler(async (req, res) => {
-    console.log('inside posting home')
+app.post('/Homes', asyncHandler(async (req, res) => {
+  console.log('inside posting home');
 
-    let q = `INSERT INTO Homes (street, sq_ft, num_of_bed, num_of_bath, year_built, lat, lng, zip, city_id) \
-    VALUES(${req.body.street}, ${req.body.sq_ft}, ${req.body.num_of_bed}, ${req.body.num_of_bath}, ${req.body.year_built}, ${req.body.lat}, ${req.body.lng}, ${req.body.zip}, (SELECT Cities.city_id FROM Cities WHERE city_name = ${req.body.city_name}))`;
+  let q = `INSERT INTO Homes (street, sq_ft, num_of_bed, num_of_bath, year_built, lat, lng, zip, city_id) \
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, (SELECT Cities.city_id FROM Cities WHERE city_name = ?))`;
 
-    console.log(q)
+  console.log(q);
 
-    db.pool.query(q, (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.status(204).send(JSON.stringify(result));
-      }
-    });
-  })
-);
+  db.pool.query(q, [req.body.street, req.body.sq_ft, req.body.num_of_bed, req.body.num_of_bath, req.body.year_built, req.body.lat, req.body.lng, req.body.zip, req.body.city_name], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(204).send(JSON.stringify(result));
+    }
+  });
+}));
+
 
 app.put(
   "/Homes",
