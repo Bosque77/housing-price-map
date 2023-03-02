@@ -56,8 +56,12 @@ app.get(
 app.post(
   "/Homes",
   asyncHandler(async (req, res) => {
+    console.log('inside posting home')
+
     let q = `INSERT INTO Homes (street, sq_ft, num_of_bed, num_of_bath, year_built, lat, lng, zip, city_id) \
-    VALUES(${req.body.street}, ${req.body.sq_ft}, ${req.body.num_of_bed}, ${req.body.num_of_bath}, ${req.body.year_built}, ${req.body.lat}, ${req.body.lng}, :${req.body.zip}, (SELECT Cities.city_id FROM Cities WHERE city_name = ${req.body.city_name}))`;
+    VALUES(${req.body.street}, ${req.body.sq_ft}, ${req.body.num_of_bed}, ${req.body.num_of_bath}, ${req.body.year_built}, ${req.body.lat}, ${req.body.lng}, ${req.body.zip}, (SELECT Cities.city_id FROM Cities WHERE city_name = ${req.body.city_name}))`;
+
+    console.log(q)
 
     db.pool.query(q, (err, result) => {
       if (err) {
@@ -84,6 +88,8 @@ app.put(
         city_id = (SELECT Cities.city_id FROM Cities WHERE city_name = ${req.body.city_name}) \
     WHERE home_id = ${req.body.home_id};`;
 
+    console.log(q)
+
     db.pool.query(q, (err, result) => {
       if (err) {
         console.log(err);
@@ -97,8 +103,11 @@ app.put(
 app.delete(
   "/Homes",
   asyncHandler(async (req, res) => {
+
+    let home_id = req.query.home_id;
+
     let q = `DELETE FROM Homes \
-    WHERE Homes.home_id = ${req.body.home_id};`;
+    WHERE Homes.home_id = ${home_id};`;
 
     db.pool.query(q, (err, result) => {
       if (err) {

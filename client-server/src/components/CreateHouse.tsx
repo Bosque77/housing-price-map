@@ -1,46 +1,93 @@
 import { useEffect, useState } from "react";
-import { House } from "types";
+import { House, City } from "types";
 
+const cities_url = "http://localhost:9178/dropdown_cities";
 
 interface prop {
   setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>;
   currentHouse: House | undefined;
+  currentCity: City | undefined;
+  cities: City[];
 }
 
-const CreateHouse = ({ setShowCreateHouse, currentHouse }: prop) => {
+const CreateHouse = ({
+  setShowCreateHouse,
+  currentHouse,
+  currentCity,
+  cities,
+}: prop) => {
+  const [street, setStreet] = useState("");
+  const [zip, setZip] = useState("");
+  const [sq_ft, setSqft] = useState("");
+  const [num_of_bed, setBeds] = useState("");
+  const [num_of_bath, setBaths] = useState("");
+  const [city, setCity] = useState("");
 
-    const [street, setStreet] = useState("");
-    const [zip, setZip] = useState("");
-    const [sq_ft, setSqft] = useState("");
-    const [num_of_bed, setBeds] = useState("");
-    const [num_of_bath, setBaths] = useState("");
-    const [city, setCity] = useState("");
-    const [year_built, setYear] = useState("");
-    const [lat, setLat] = useState("");
-    const [lng, setLng] = useState("");
+  const [year_built, setYear] = useState("");
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
 
-    useEffect(() => {
-        if (currentHouse){
-            
-            setStreet(currentHouse.street)
-            setZip(currentHouse.zip)
-            setSqft(currentHouse.sq_ft.toString())
-            setBeds(currentHouse.num_of_bed.toString())
-            setBaths(currentHouse.num_of_bath.toString())
-            setCity(currentHouse.city.toString())
-            setYear(currentHouse.year_built.toString())
-            setLat(currentHouse.lat.toString())
-            setLng(currentHouse.lng.toString())
-        }
-    }, [currentHouse])
-       
+  useEffect(() => {
+    if (currentCity) {
+      setCity(currentCity.city_name);
+    }
+    if (currentHouse) {
+      setStreet(currentHouse.street);
+      setZip(currentHouse.zip);
+      setSqft(currentHouse.sq_ft.toString());
+      setBeds(currentHouse.num_of_bed.toString());
+      setBaths(currentHouse.num_of_bath.toString());
+      setCity(currentHouse.city.toString());
+      setYear(currentHouse.year_built.toString());
+      setLat(currentHouse.lat.toString());
+      setLng(currentHouse.lng.toString());
+    }
+  }, [currentHouse]);
 
+  const onCreateHouse = async () => {
+    console.log('inside on create house')
+    const homes_url = "http://localhost:9178/Homes";
+    try {
+      const response = await fetch(homes_url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          street: street,
+          sq_ft: sq_ft,
+          num_of_bed: num_of_bed,
+          num_of_bath: num_of_bath,
+          year_built: year_built,
+          lat: lat,
+          lng: lng,
+          zip: zip,
+          city_name: city,
+        })
+      })
+    console.log(response)
+    } catch (error){
+      console.log(error)
+    }
+   
+  };
+
+  const insertCities = () => {
+    return cities.map((city: any) => (
+      <option value={city.city_name} key={city.city_id}>
+        {city.city_name}
+      </option>
+    ));
+  };
 
   return (
     <div className="fixed h-screen w-screen flex items-center justify-center ">
       <div className="bg-white px-8 py-8 z-10 rounded flex flex-col items-center">
-        {currentHouse ? <h2 className="text-xl text-center">Edit House</h2>:
-         <h2 className="text-xl text-center">Add House</h2>}
+        {currentHouse ? (
+          <h2 className="text-xl text-center">Edit House</h2>
+        ) : (
+          <h2 className="text-xl text-center">Add House</h2>
+        )}
         <div className="grid grid-cols-2 gap-x-2 gap-y-2 mt-6">
           <div className="flex flex-col">
             <label
@@ -66,15 +113,13 @@ const CreateHouse = ({ setShowCreateHouse, currentHouse }: prop) => {
             >
               City
             </label>
-            <input
-              type="text"
-              name="city"
-              id="city"
-              value={city}
-              onChange={(e) => setCity(e.target.value.toString())}
+            <select
               className=" border rounded-md pl-2 pr-12 py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
               placeholder="City"
-            />
+              onChange = { (e) => setCity(e.target.value)}
+            >
+              {insertCities()}
+            </select>
           </div>
           <div className="flex flex-col">
             <label
@@ -122,7 +167,7 @@ const CreateHouse = ({ setShowCreateHouse, currentHouse }: prop) => {
               name="num_of_bed"
               id="num_of_bed"
               value={num_of_bed}
-              onChange={(e) => setBaths(e.target.value.toString())}
+              onChange={(e) => setBeds(e.target.value.toString())}
               className=" border rounded-md pl-2  py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
               placeholder="Number of Beds"
             />
@@ -199,11 +244,16 @@ const CreateHouse = ({ setShowCreateHouse, currentHouse }: prop) => {
           </div>
         </div>
 
-        <button className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6">
+        <button className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
+        onClick = {onCreateHouse}
+        >
           Submit
         </button>
         <div className="flex  w-full justify-end">
-          <button className="text-black mt-8  active:scale-95 hover:text-black hover:underline hover:underline-offset-1 " onClick={() => setShowCreateHouse(false)}>
+          <button
+            className="text-black mt-8  active:scale-95 hover:text-black hover:underline hover:underline-offset-1 "
+            onClick={() => setShowCreateHouse(false)}
+          >
             Cancel
           </button>
         </div>

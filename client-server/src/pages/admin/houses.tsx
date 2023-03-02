@@ -11,23 +11,23 @@ import { useEffect, useState } from "react";
 const cities_url = "http://localhost:9178/dropdown_cities";
 
 export async function getServerSideProps() {
-  console.log(cities_url)
+  console.log(cities_url);
   const res = await fetch(cities_url);
   const cities = await res.json();
 
-  const city_id = cities[0].city_id
+  const city_id = cities[0].city_id;
   const query_data = {
     cityid: city_id,
   };
 
-  console.log(query_data)
+  console.log(query_data);
 
   const queryParams = new URLSearchParams(query_data).toString();
-  const homes_url = `http://localhost:9178/Homes?${queryParams}`
-  console.log(homes_url)
+  const homes_url = `http://localhost:9178/Homes?${queryParams}`;
+  console.log(homes_url);
   const res_2 = await fetch(homes_url);
-  const homes = await res_2.json()
-  console.log(homes)
+  const homes = await res_2.json();
+  console.log(homes);
 
   // Return data as props...
   return { props: { cities, homes } };
@@ -38,10 +38,10 @@ interface prop {
   homes: any;
 }
 
-const HousesPage = ({cities,homes}: prop) => {
-
+const HousesPage = ({ cities, homes }: prop) => {
   const [showCreateHouse, setShowCreateHouse] = useState(false);
   const [currentHouse, setCurrentHouse] = useState(undefined);
+  const [currentCity, setCurrentCity] = useState(undefined);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [shouldDelete, setShouldDelete] = useState(false);
   const [should_delete_object_name, setShouldDeleteObjectName] = useState("");
@@ -64,6 +64,8 @@ const HousesPage = ({cities,homes}: prop) => {
           <CreateHouse
             setShowCreateHouse={setShowCreateHouse}
             currentHouse={currentHouse}
+            currentCity={currentCity}
+            cities={cities}
           />
         )}
         {showDeleteModal && (
@@ -92,8 +94,7 @@ const HousesComponent = ({
   cities,
   homes,
 }: prop) => {
-
-
+  const [homes_state, setHomes] = useState(homes);
 
   const onShowHouse = () => {
     console.log("on show house");
@@ -107,14 +108,57 @@ const HousesComponent = ({
     setShowCreateHouse(true);
   };
 
-  const onDelete = (house: House) => {
-    setShowDeleteModal(true);
+  const onDelete = async (house: House) => {
+
+    if(house.home_id){
+
+      const home_id_string = house.home_id.toString()
+
+      const query_data = {
+        home_id: home_id_string,
+      };
+    
+      console.log(query_data);
+    
+      const queryParams = new URLSearchParams(query_data).toString();
+  
+      const delete_url = `http://localhost:9178/Homes?${queryParams}`;
+    
+      try {
+        const response = await fetch(delete_url, {
+          method: "DELETE"
+        });
+        if (response.ok) {
+          console.log("House deleted successfully");
+        } else {
+          console.error("Failed to delete house");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
   };
 
   const insertCities = () => {
     return cities.map((city: any) => (
-      <option value={city.city_id}>{city.city_name}</option>
+      <option value={city.city_id} key={city.city_id}>
+        {city.city_name}
+      </option>
     ));
+  };
+
+  const onCitySelect = async (city_id: string) => {
+    const query_data = {
+      cityid: city_id,
+    };
+    const queryParams = new URLSearchParams(query_data).toString();
+    const homes_url = `http://localhost:9178/Homes?${queryParams}`;
+    console.log(homes_url);
+    const res_2 = await fetch(homes_url);
+    homes = await res_2.json();
+    console.log(homes);
+    setHomes(homes);
   };
 
   return (
@@ -124,7 +168,10 @@ const HousesComponent = ({
           <div className="flex flex-col items-center justify-center">
             <div className="flex mb-6">
               <label className="mr-3 content-center text-lg">Select City</label>
-              <select className="border px-4 bg-white text-lg">
+              <select
+                className="border px-4 bg-white text-lg"
+                onChange={(e) => onCitySelect(e.target.value)}
+              >
                 {insertCities()}
               </select>
             </div>
@@ -142,7 +189,7 @@ const HousesComponent = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {homes.map((home: House) => (
+                  {homes_state.map((home: House) => (
                     <tr key={home.home_id}>
                       <td className="border px-4 py-2">{home.home_id}</td>
                       <td className="border px-4 py-2">{home.street}</td>
