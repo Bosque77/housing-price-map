@@ -7,6 +7,9 @@ import { ArrowTrendingUpIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { GlobeAmericasIcon } from "@heroicons/react/24/solid";
 
+
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 const Home = () => {

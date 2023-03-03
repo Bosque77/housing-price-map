@@ -1,7 +1,8 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
-import cors from 'cors'
+import cors from "cors";
 import * as db from "./dbcon.mjs";
+import middleware from "./utils/middleware.mjs";
 
 // Express
 
@@ -16,13 +17,15 @@ app.use(express.json());
     ROUTE to diplay all cities in select drop down menu
 */
 app.get(
-  "/dropdown_cities",
+  "/Cities",
   asyncHandler(async (req, res) => {
+    console.log("inside get Cities");
     let q = "SELECT city_id, city_name FROM Cities;";
 
     db.pool.query(q, (err, result) => {
       if (err) {
         console.log(err);
+        res.status(500).send(err.message);
       } else {
         res.status(200).send(JSON.stringify(result));
       }
@@ -36,9 +39,7 @@ app.get(
 app.get(
   "/Homes",
   asyncHandler(async (req, res) => {
-
-    console.log('inside get Homes')
-    let city_id = req.query.cityid.toString();
+    let city_id = req.query.city_id;
 
     let q = `SELECT * FROM Homes INNER JOIN Cities on Homes.city_id = Cities.city_id WHERE Homes.city_id=${city_id};`;
 
@@ -46,36 +47,54 @@ app.get(
       if (err) {
         console.log(err);
       } else {
-        console.log(result)
+        console.log(result);
         res.status(200).send(JSON.stringify(result));
       }
     });
   })
 );
 
-app.post('/Homes', asyncHandler(async (req, res) => {
-  console.log('inside posting home');
+app.post(
+  "/Homes",
+  asyncHandler(async (req, res) => {
+    console.log("inside posting home");
 
-  let q = `INSERT INTO Homes (street, sq_ft, num_of_bed, num_of_bath, year_built, lat, lng, zip, city_id) \
+    let q = `INSERT INTO Homes (street, sq_ft, num_of_bed, num_of_bath, year_built, lat, lng, zip, city_id) \
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, (SELECT Cities.city_id FROM Cities WHERE city_name = ?))`;
 
-  console.log(q);
+    console.log(q);
 
-  db.pool.query(q, [req.body.street, req.body.sq_ft, req.body.num_of_bed, req.body.num_of_bath, req.body.year_built, req.body.lat, req.body.lng, req.body.zip, req.body.city_name], (err, result) => {
-    if (err) {
-        console.log('error')
-      console.log(err);
-    } else {
-        console.log('sending good response')
-      res.status(204).send(JSON.stringify(result));
-    }
-  });
-}));
+    db.pool.query(
+      q,
+      [
+        req.body.street,
+        req.body.sq_ft,
+        req.body.num_of_bed,
+        req.body.num_of_bath,
+        req.body.year_built,
+        req.body.lat,
+        req.body.lng,
+        req.body.zip,
+        req.body.city_name,
+      ],
+      (err, result) => {
+        if (err) {
+          console.log("error");
+          console.log(err);
+        } else {
+          console.log("sending good response");
+          res.status(204).send(JSON.stringify(result));
+        }
+      }
+    );
+  })
+);
 
-
-app.put('/Homes', asyncHandler(async (req, res) => {
-    console.log(res.body)
-  let q = `UPDATE Homes \
+app.put(
+  "/Homes",
+  asyncHandler(async (req, res) => {
+    console.log(res.body);
+    let q = `UPDATE Homes \
     SET street = ?, \
         sq_ft = ?, \
         num_of_bed = ?, \
@@ -87,20 +106,35 @@ app.put('/Homes', asyncHandler(async (req, res) => {
         city_id = (SELECT Cities.city_id FROM Cities WHERE city_name = ?) \
     WHERE home_id = ?`;
 
-  db.pool.query(q, [req.body.street, req.body.sq_ft, req.body.num_of_bed, req.body.num_of_bath, req.body.year_built, req.body.lat, req.body.lng, req.body.zip, req.body.city_name, req.body.home_id], (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.status(200).send(JSON.stringify(result));
-    }
-  });
-}));
-
+    db.pool.query(
+      q,
+      [
+        req.body.street,
+        req.body.sq_ft,
+        req.body.num_of_bed,
+        req.body.num_of_bath,
+        req.body.year_built,
+        req.body.lat,
+        req.body.lng,
+        req.body.zip,
+        req.body.city_name,
+        req.body.home_id,
+      ],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(JSON.stringify(result));
+        }
+      }
+    );
+  })
+);
 
 app.delete(
   "/Homes",
   asyncHandler(async (req, res) => {
-
+    console.log('inside delete home')
     let home_id = req.query.home_id;
 
     let q = `DELETE FROM Homes \
@@ -116,9 +150,11 @@ app.delete(
   })
 );
 
-app.get('/*', (req, res) => {
+app.get("/*", (req, res) => {
   res.send("hello; this is the REST API server");
 });
+
+app.use(middleware.errorHandler);
 
 /*
     LISTENER
