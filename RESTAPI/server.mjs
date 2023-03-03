@@ -63,8 +63,10 @@ app.post('/Homes', asyncHandler(async (req, res) => {
 
   db.pool.query(q, [req.body.street, req.body.sq_ft, req.body.num_of_bed, req.body.num_of_bath, req.body.year_built, req.body.lat, req.body.lng, req.body.zip, req.body.city_name], (err, result) => {
     if (err) {
+        console.log('error')
       console.log(err);
     } else {
+        console.log('sending good response')
       res.status(204).send(JSON.stringify(result));
     }
   });
@@ -72,6 +74,7 @@ app.post('/Homes', asyncHandler(async (req, res) => {
 
 
 app.put('/Homes', asyncHandler(async (req, res) => {
+    console.log(res.body)
   let q = `UPDATE Homes \
     SET street = ?, \
         sq_ft = ?, \

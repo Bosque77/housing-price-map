@@ -8,7 +8,8 @@ export interface House {
     year_built: number;
     lat: number;
     lng: number;
-    city: string;
+    city_name: string;
+    city_id: number;
 }
 
 export interface City {

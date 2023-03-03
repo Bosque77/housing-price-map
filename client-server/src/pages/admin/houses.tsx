@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Head from "next/head";
 import SideNav from "@/components/SidNav";
-import { House } from "types";
+import { City, House } from "types";
 import CreateHouse from "@/components/CreateHouse";
 import DeleteModal from "@/components/DeleteModal";
 
@@ -34,7 +34,7 @@ export async function getServerSideProps() {
 }
 
 interface prop {
-  cities: any;
+  cities: City[];
   homes: any;
 }
 
@@ -56,6 +56,7 @@ const HousesPage = ({ cities, homes }: prop) => {
             setShowCreateHouse={setShowCreateHouse}
             setCurrentHouse={setCurrentHouse}
             setShowDeleteModal={setShowDeleteModal}
+            setCurrentCity={setCurrentCity}
             cities={cities}
             homes={homes}
           />
@@ -82,7 +83,8 @@ const HousesPage = ({ cities, homes }: prop) => {
 interface prop {
   setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>;
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
-  cities: any;
+  setCurrentCity: React.Dispatch<React.SetStateAction<any>>;
+  cities: City[];
   homes: any;
   setCurrentHouse: React.Dispatch<React.SetStateAction<any>>;
 }
@@ -91,6 +93,7 @@ const HousesComponent = ({
   setShowCreateHouse,
   setCurrentHouse,
   setShowDeleteModal,
+  setCurrentCity,
   cities,
   homes,
 }: prop) => {
@@ -109,24 +112,22 @@ const HousesComponent = ({
   };
 
   const onDelete = async (house: House) => {
-
-    if(house.home_id){
-
-      const home_id_string = house.home_id.toString()
+    if (house.home_id) {
+      const home_id_string = house.home_id.toString();
 
       const query_data = {
         home_id: home_id_string,
       };
-    
+
       console.log(query_data);
-    
+
       const queryParams = new URLSearchParams(query_data).toString();
-  
+
       const delete_url = `http://localhost:9178/Homes?${queryParams}`;
-    
+
       try {
         const response = await fetch(delete_url, {
-          method: "DELETE"
+          method: "DELETE",
         });
         if (response.ok) {
           console.log("House deleted successfully");
@@ -137,7 +138,6 @@ const HousesComponent = ({
         console.error(error);
       }
     }
-
   };
 
   const insertCities = () => {
@@ -149,16 +149,22 @@ const HousesComponent = ({
   };
 
   const onCitySelect = async (city_id: string) => {
-    const query_data = {
-      cityid: city_id,
-    };
-    const queryParams = new URLSearchParams(query_data).toString();
-    const homes_url = `http://localhost:9178/Homes?${queryParams}`;
-    console.log(homes_url);
-    const res_2 = await fetch(homes_url);
-    homes = await res_2.json();
-    console.log(homes);
-    setHomes(homes);
+    const current_city = cities.find(
+      (city) => city.city_id === parseInt(city_id)
+    );
+    if (current_city) {
+      setCurrentCity(current_city);
+      const query_data = {
+        cityid: city_id,
+      };
+      const queryParams = new URLSearchParams(query_data).toString();
+      const homes_url = `http://localhost:9178/Homes?${queryParams}`;
+      console.log(homes_url);
+      const res_2 = await fetch(homes_url);
+      homes = await res_2.json();
+      console.log(homes);
+      setHomes(homes);
+    }
   };
 
   return (
