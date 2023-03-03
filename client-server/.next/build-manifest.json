@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/NGyjt4zE4WZgzGAcZbhV2/_buildManifest.js",
-    "static/NGyjt4zE4WZgzGAcZbhV2/_ssgManifest.js"
+    "static/l9Z5Ao_UWOguM6uq5s5JI/_buildManifest.js",
+    "static/l9Z5Ao_UWOguM6uq5s5JI/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "pages": {
@@ -56,7 +56,7 @@
       "static/chunks/framework-cda2f1305c3d9424.js",
       "static/chunks/main-f11614d8aa7ee555.js",
       "static/chunks/664-e2359597ac708d8d.js",
-      "static/chunks/pages/admin/houses-cbe248f95a4f509c.js"
+      "static/chunks/pages/admin/houses-bf45db5a6ff10d60.js"
     ],
     "/admin/region-statistics": [
       "static/chunks/webpack-8fa1640cc84ba8fe.js",

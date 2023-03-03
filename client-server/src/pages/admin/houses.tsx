@@ -8,7 +8,7 @@ import DeleteModal from "@/components/DeleteModal";
 // import { cities, homes } from "@/data/ex_data.js";
 import { useEffect, useState } from "react";
 
-const cities_url = "http://localhost:9178/dropdown_cities";
+const cities_url = "http://flip1.engr.oregonstate.edu:9178/dropdown_cities";
 
 export async function getServerSideProps() {
   console.log(cities_url);
@@ -23,7 +23,7 @@ export async function getServerSideProps() {
   console.log(query_data);
 
   const queryParams = new URLSearchParams(query_data).toString();
-  const homes_url = `http://localhost:9178/Homes?${queryParams}`;
+  const homes_url = `http://flip1.engr.oregonstate.edu:9178/Homes?${queryParams}`;
   console.log(homes_url);
   const res_2 = await fetch(homes_url);
   const homes = await res_2.json();
@@ -123,7 +123,7 @@ const HousesComponent = ({
 
       const queryParams = new URLSearchParams(query_data).toString();
 
-      const delete_url = `http://localhost:9178/Homes?${queryParams}`;
+      const delete_url = `http://flip1.engr.oregonstate.edu:9178/Homes?${queryParams}`;
 
       try {
         const response = await fetch(delete_url, {
@@ -158,7 +158,7 @@ const HousesComponent = ({
         cityid: city_id,
       };
       const queryParams = new URLSearchParams(query_data).toString();
-      const homes_url = `http://localhost:9178/Homes?${queryParams}`;
+      const homes_url = `http://flip1.engr.oregonstate.edu:9178/Homes?${queryParams}`;
       console.log(homes_url);
       const res_2 = await fetch(homes_url);
       homes = await res_2.json();

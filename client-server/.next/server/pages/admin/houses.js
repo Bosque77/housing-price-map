@@ -28,7 +28,7 @@ var external_react_ = __webpack_require__(6689);
 ;// CONCATENATED MODULE: ./src/components/CreateHouse.tsx
 
 
-const cities_url = "http://localhost:9178/dropdown_cities";
+const cities_url = "http://flip1.engr.oregonstate.edu:9178/dropdown_cities";
 const CreateHouse = ({ setShowCreateHouse , currentHouse , currentCity , cities  })=>{
     const [street, setStreet] = (0,external_react_.useState)("");
     const [zip, setZip] = (0,external_react_.useState)("");
@@ -59,7 +59,7 @@ const CreateHouse = ({ setShowCreateHouse , currentHouse , currentCity , cities 
     ]);
     const onEditHouse = async ()=>{
         console.log("inside on edit house");
-        const homes_url = "http://localhost:9178/Homes";
+        const homes_url = "http://flip1.engr.oregonstate.edu:9178/Homes";
         try {
             const response = await fetch(homes_url, {
                 method: "PUT",
@@ -89,7 +89,7 @@ const CreateHouse = ({ setShowCreateHouse , currentHouse , currentCity , cities 
     };
     const onCreateHouse = async ()=>{
         console.log("inside on create house");
-        const homes_url = "http://localhost:9178/Homes";
+        const homes_url = "http://flip1.engr.oregonstate.edu:9178/Homes";
         try {
             const response = await fetch(homes_url, {
                 method: "POST",
@@ -390,7 +390,7 @@ const DeleteModal = ({ setShouldDelete , setShowDeleteModal  })=>{
 
 // import { cities, homes } from "@/data/ex_data.js";
 
-const houses_cities_url = "http://localhost:9178/dropdown_cities";
+const houses_cities_url = "http://flip1.engr.oregonstate.edu:9178/dropdown_cities";
 async function getServerSideProps() {
     console.log(houses_cities_url);
     const res = await fetch(houses_cities_url);
@@ -401,7 +401,7 @@ async function getServerSideProps() {
     };
     console.log(query_data);
     const queryParams = new URLSearchParams(query_data).toString();
-    const homes_url = `http://localhost:9178/Homes?${queryParams}`;
+    const homes_url = `http://flip1.engr.oregonstate.edu:9178/Homes?${queryParams}`;
     console.log(homes_url);
     const res_2 = await fetch(homes_url);
     const homes = await res_2.json();
@@ -475,7 +475,7 @@ const HousesComponent = ({ setShowCreateHouse , setCurrentHouse , setShowDeleteM
             };
             console.log(query_data);
             const queryParams = new URLSearchParams(query_data).toString();
-            const delete_url = `http://localhost:9178/Homes?${queryParams}`;
+            const delete_url = `http://flip1.engr.oregonstate.edu:9178/Homes?${queryParams}`;
             try {
                 const response = await fetch(delete_url, {
                     method: "DELETE"
@@ -504,7 +504,7 @@ const HousesComponent = ({ setShowCreateHouse , setCurrentHouse , setShowDeleteM
                 cityid: city_id
             };
             const queryParams = new URLSearchParams(query_data).toString();
-            const homes_url = `http://localhost:9178/Homes?${queryParams}`;
+            const homes_url = `http://flip1.engr.oregonstate.edu:9178/Homes?${queryParams}`;
             console.log(homes_url);
             const res_2 = await fetch(homes_url);
             homes = await res_2.json();

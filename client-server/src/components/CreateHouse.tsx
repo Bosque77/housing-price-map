@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { House, City } from "types";
 
-const cities_url = "http://localhost:9178/dropdown_cities";
+const cities_url = "http://flip1.engr.oregonstate.edu:9178/dropdown_cities";
 
 interface prop {
   setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,7 +47,7 @@ const CreateHouse = ({
 
   const onEditHouse = async () => {
     console.log("inside on edit house");
-    const homes_url = "http://localhost:9178/Homes";
+    const homes_url = "http://flip1.engr.oregonstate.edu:9178/Homes";
     try {
       const response = await fetch(homes_url, {
         method: "PUT",
@@ -79,7 +79,7 @@ const CreateHouse = ({
 
   const onCreateHouse = async () => {
     console.log("inside on create house");
-    const homes_url = "http://localhost:9178/Homes";
+    const homes_url = "http://flip1.engr.oregonstate.edu:9178/Homes";
     try {
       const response = await fetch(homes_url, {
         method: "POST",
