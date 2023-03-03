@@ -11,8 +11,9 @@
 -- display Homes table with : character being used to 
 -- denote the variables that will have data from the backend programming language
 
-SELECT Homes.home_id, Homes.street, Homes.sq_ft, Homes.num_of_bed, Homes.num_of_bath FROM Homes
-WHERE Homes.city = :city_id;
+SELECT * FROM Homes INNER JOIN Cities
+on Homes.city_id = Cities.city_id
+WHERE Homes.city_id=:city_id;
 
 -- insert new home into Homes with : character being used to 
 -- denote the variables that will have data from the backend programming language
