@@ -1,0 +1,43 @@
+###
+POST http://localhost:9178/Homes HTTP/1.1
+content-type: application/json
+
+{
+    "street": "street",
+    "sq_ft": 2019,
+    "num_of_bed": 1,
+    "num_of_bath": 1,
+    "year_built": 1980,
+    "lat": 10,
+    "lng": 21.1,
+    "zip": "VA1234",
+    "city_name": "San Francisco"
+}
+
+###
+GET http://localhost:9178/Homes?cityid=1 HTTP/1.1
+
+
+
+###
+
+PUT http://localhost:9178/Homes HTTP/1.1
+content-type: application/json
+
+{
+    "street": "test_or_update",
+    "sq_ft": 2019,
+    "num_of_bed": 1,
+    "num_of_bath": 1,
+    "year_built": 1980,
+    "lat": 10,
+    "lng": 21.1,
+    "zip": "VA1234",
+    "city_name": "San Francisco",
+    "home_id": 1
+}
+
+###
+DELETE http://localhost:9178/Homes?home_id=1 HTTP/1.1
+
+
