@@ -40,7 +40,7 @@ app.get(
     console.log('inside get Homes')
     let city_id = req.query.cityid.toString();
 
-    let q = `SELECT Homes.home_id, Homes.street, Homes.sq_ft, Homes.num_of_bed, Homes.num_of_bath FROM Homes WHERE Homes.city_id=${city_id};`;
+    let q = `SELECT * FROM Homes INNER JOIN Cities on Homes.city_id = Cities.city_id WHERE Homes.city_id=${city_id};`;
 
     db.pool.query(q, (err, result) => {
       if (err) {
@@ -71,32 +71,28 @@ app.post('/Homes', asyncHandler(async (req, res) => {
 }));
 
 
-app.put(
-  "/Homes",
-  asyncHandler(async (req, res) => {
-    let q = `UPDATE Homes \
-    SET street = ${req.body.street} \
-        sq_ft = ${req.body.sq_ft}, \
-        num_of_bed = ${req.body.num_of_bed}, \
-        num_of_bath = ${req.body.num_of_bath}, \
-        year_built = ${req.body.year_built}, \
-        lat = ${req.body.lat}, \
-        lng = ${req.body.lng}, \
-        zip = ${req.body.zip}, \
-        city_id = (SELECT Cities.city_id FROM Cities WHERE city_name = ${req.body.city_name}) \
-    WHERE home_id = ${req.body.home_id};`;
+app.put('/Homes', asyncHandler(async (req, res) => {
+  let q = `UPDATE Homes \
+    SET street = ?, \
+        sq_ft = ?, \
+        num_of_bed = ?, \
+        num_of_bath = ?, \
+        year_built = ?, \
+        lat = ?, \
+        lng = ?, \
+        zip = ?, \
+        city_id = (SELECT Cities.city_id FROM Cities WHERE city_name = ?) \
+    WHERE home_id = ?`;
 
-    console.log(q)
+  db.pool.query(q, [req.body.street, req.body.sq_ft, req.body.num_of_bed, req.body.num_of_bath, req.body.year_built, req.body.lat, req.body.lng, req.body.zip, req.body.city_name, req.body.home_id], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).send(JSON.stringify(result));
+    }
+  });
+}));
 
-    db.pool.query(q, (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.status(200).send(JSON.stringify(result));
-      }
-    });
-  })
-);
 
 app.delete(
   "/Homes",
