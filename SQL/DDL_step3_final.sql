@@ -44,7 +44,7 @@ CREATE OR REPLACE TABLE Zillow_Estimates (
     date DATE NOT NULL,
     home_id INT(10),
     PRIMARY KEY (zillow_price_id),
-    FOREIGN KEY (home_id) REFERENCES Homes (home_id) ON DELETE CASCADE
+    FOREIGN KEY (home_id) REFERENCES Homes (home_id) ON DELETE SET NULL
 );
 
 
