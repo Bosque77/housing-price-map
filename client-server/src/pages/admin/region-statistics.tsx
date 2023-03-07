@@ -1,21 +1,34 @@
 import Header from "@/components/Header";
+import SideNav from "@/components/SidNav";
+
+
+const RegionStatisticsPage = () => {
+
+
+  return (
+    <div className="bg-gray-50 h-screen">
+      <Header />
+      <div className="flex flex-row h-screen ">
+        <SideNav />
+        <div className="flex flex-row justify-center w-full bg-gray-50">
+          <RegionStatistics />
+        </div>
+    
+      </div>
+    </div>
+  );
+};
 
 const RegionStatistics = () => {
   return (
     <div>
-      <Header />
-      <div className="bg-gray-100 h-screen">
-        <div className="container mx-auto py-12">
+        <div className="container mx-auto py-12 bg-white shadow mt-8 px-8">
           <div className="flex flex-col items-center justify-center">
-            <p className="text-center max-w-screen-lg mb-8">
-              This page will be used to show the region statistics for a
-              designated region
-            </p>
             <div className="text-center max-w-screen-xl ">
               <div>
                 <div className="flex mb-6">
                   <label className="mr-3 content-center">Select Region</label>
-                  <select className="border px-4 bg-slate-300">
+                  <select  className="border px-4 py-2 bg-white text-lg mb-8">
                     <option value="1">Bay Area</option>
                     <option value="2">Los Angelos Metro</option>
                   </select>
@@ -64,9 +77,8 @@ const RegionStatistics = () => {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };
 
-export default RegionStatistics;
+export default RegionStatisticsPage;

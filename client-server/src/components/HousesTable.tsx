@@ -23,6 +23,7 @@ interface prop {
   
     const onShowHouse = () => {
       console.log("on show house");
+      setCurrentHouse(undefined);
       setShowCreateHouse(true);
     };
   

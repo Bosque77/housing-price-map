@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import SideNav from "@/components/SidNav";
 
 import { zillow_estimates } from "@/data/ex_data";
 
@@ -6,11 +7,27 @@ const filtered_estimates = zillow_estimates.filter(
   (estimate) => estimate.zillow_estimate_id === 1
 );
 
+
+const ZillowEstimatesPage = () => {
+
+
+  return (
+    <div className="bg-gray-50 h-screen">
+      <Header />
+      <div className="flex flex-row h-screen ">
+        <SideNav />
+        <div className="flex flex-row justify-center w-full bg-gray-50">
+          <ZillowEstimates />
+        </div>
+    
+      </div>
+    </div>
+  );
+};
+
 const ZillowEstimates = () => {
   return (
     <div>
-      <Header />
-      <div className="bg-gray-100 h-screen">
         <div className="container mx-auto py-12">
           <div className="flex flex-col items-center justify-center">
             <p className="text-center max-w-screen-lg mb-8">
@@ -74,9 +91,8 @@ const ZillowEstimates = () => {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };
 
-export default ZillowEstimates;
+export default ZillowEstimatesPage;

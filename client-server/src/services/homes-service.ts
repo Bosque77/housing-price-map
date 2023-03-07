@@ -37,4 +37,4 @@ export const deleteHome = async (home_id: number) => {
   return response.data;
 };
 
-export default { getHomes,  deleteHome };
+export default { getHomes,  deleteHome, updateHome, createHome };

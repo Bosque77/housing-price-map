@@ -2,6 +2,7 @@ export const cities = [
   { city_id: 1, city_name: "San Francisco", state: "California" },
   { city_id: 2, city_name: "New York", state: "New York" },
   { city_id: 3, city_name: "Berkley", state: "California" },
+  { city_id: 4, city_name: "Atlanta", state: "Georgia" },
   { city_id: 8, city_name: "Dallas", state: "Texas" },
 ];
 
