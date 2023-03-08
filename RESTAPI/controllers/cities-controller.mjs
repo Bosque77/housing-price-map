@@ -52,30 +52,47 @@ citiesRouter.get(
     });
   }));
 
-// // change landfill
-// landfillRouter.put("/:id", asyncHandler(async (request: Request, response: Response) => {
-//     const updated_landfill = request.body;
-//     const landfill_id = request.params.id;
-//     const landfill = await landfillService.updateLandfill(landfill_id, updated_landfill);
-//     response.status(200).send(landfill);
-// }))
 
-// // delete landfill
-// landfillRouter.delete("/:id", async (request: Request, response: Response) => {
-//     const landfill_id = request.params.id;
-//     const landfill = await landfillService.deleteLandfill(landfill_id);
-//     if (!landfill) response.status(404).send("landfill not found")
-//     response.status(204)
+  citiesRouter.delete("/:city_id", asyncHandler(async (req, res) => {
+    console.log(`Deleting city with ID ${req.params.city_id}`);
+    const q = `DELETE FROM Cities WHERE city_id = ?`;
+    const values = [req.params.city_id];
+  
+    db.pool.query(q, values, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send(err.message);
+      } else if (result.affectedRows === 0) {
+        res.status(404).send("City not found");
+      } else {
+        res.status(200).send(`City with ID ${req.params.city_id} deleted successfully`);
+      }
+    });
+  }));
 
-// });
 
-// // create new landfill
-// landfillRouter.post("/", async (request: Request, response: Response) => {
-//     const user = request.user as UserType;
-//     const user_id = user._id as string;
-//     const new_landfill = landfillSchema.parse(request.body);
-//     const returned_data = await landfillService.createLandfill(new_landfill, user_id);
-//     response.status(200).send(returned_data);
-// });
+  citiesRouter.post("/", asyncHandler(async (req, res) => {
+    console.log("Adding a new city");
+    const { city_name, state_id } = req.body;
+  
+    if (!city_name || !state_id) {
+      res.status(400).send("City name and state id are required");
+      return;
+    }
+  
+    const q = `INSERT INTO Cities (city_name, state_id) VALUES (?, ?)`;
+    const values = [city_name, state_id];
+  
+    db.pool.query(q, values, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send(err.message);
+      } else {
+        const newCityId = result.insertId;
+        res.status(201).send(`New city added with ID ${newCityId}`);
+      }
+    });
+  }));
+
 
 export default citiesRouter;

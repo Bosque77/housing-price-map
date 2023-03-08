@@ -49,4 +49,14 @@ Content-Type: application/json
   "state_id": 1
 }
 
+###
+DELETE http://localhost:9178/api/Cities/1
 
+###
+POST http://localhost:9178/api/Cities
+Content-Type: application/json
+
+{
+  "city_name": "San Francisco",
+  "state_id": 2
+}
