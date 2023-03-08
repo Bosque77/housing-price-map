@@ -13,7 +13,7 @@ citiesRouter.get(
     "/",
     asyncHandler(async (req, res) => {
       console.log("inside get Cities");
-      let q = `SELECT Cities.city_id, Cities.city_name, States.name AS state_name
+      let q = `SELECT Cities.city_id, Cities.city_name, States.name AS state
       FROM Cities
       INNER JOIN States ON Cities.state_id = States.state_id `;;
   

@@ -1,12 +1,30 @@
 import Header from "@/components/Header";
 import SideNav from "@/components/SidNav";
 import CreateCity from "@/components/CreateCity";
-import { City } from "types";
-
-import { cities } from "@/data/ex_data.js";
+import { City, State } from "types";
+import citiesService from "@/services/cities-service";
+import statesService from "@/services/states-service";
 import { useState } from "react";
 
-const CitiesPage = () => {
+
+export async function getServerSideProps() {
+  try {
+    let cities = await citiesService.getCities();
+    let states = await statesService.getStates();
+    return { props: { cities } };
+  } catch (err) {
+    const cities = [] as City[];
+    const states = [] as State[];
+    return { props: { cities, states } };
+  }
+}
+
+interface prop {
+  cities: City[];
+  states: State[]
+}
+
+const CitiesPage = ({cities, states}: prop) => {
   const [showCreateCity, setShowCreateCity] = useState(false);
   const [currentCity, setCurrentCity] = useState(undefined);
 
@@ -17,12 +35,15 @@ const CitiesPage = () => {
         <SideNav />
         <div className="flex flex-row justify-center w-full bg-gray-50">
           <CitiesComponent
+            states = {states}
+            cities={cities}
             setShowCreateCity={setShowCreateCity}
             setCurrentCity={setCurrentCity}
           />
         </div>
         {showCreateCity && (
           <CreateCity
+            states = {states}
             setShowCreateCity={setShowCreateCity}
             currentCity={currentCity}
           />
@@ -35,9 +56,21 @@ const CitiesPage = () => {
 interface prop {
   setShowCreateCity: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentCity: React.Dispatch<React.SetStateAction<any>>;
+  cities: City[];
+  states: State[]
 }
 
-const CitiesComponent = ({ setShowCreateCity, setCurrentCity }: prop) => {
+const CitiesComponent = ({
+  setShowCreateCity,
+  setCurrentCity,
+  cities,
+  states,
+}: prop) => {
+  const onAdd = () => {
+    setCurrentCity(undefined);
+    setShowCreateCity(true);
+  };
+
   const onEdit = (city: City) => {
     setCurrentCity(city);
     setShowCreateCity(true);
@@ -91,7 +124,7 @@ const CitiesComponent = ({ setShowCreateCity, setCurrentCity }: prop) => {
                   </table>
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
-                    onClick={() => setShowCreateCity(true)}
+                    onClick={onAdd}
                   >
                     Add City
                   </button>

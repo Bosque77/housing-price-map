@@ -24,3 +24,8 @@ export interface Region {
     cities: string[]
     region_description: string
 }
+
+export interface State {
+    state_id?: number;
+    name: string;
+}

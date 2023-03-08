@@ -4,6 +4,7 @@ import cors from "cors";
 import * as db from "./dbcon.mjs";
 import middleware from "./utils/middleware.mjs";
 import citiesRouter from "./controllers/cities-controller.mjs";
+import statesRouter from "./controllers/states-controller.mjs";
 
 // Express
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/Cities', citiesRouter)
+app.use('/api/States', statesRouter)
 
 /*
     ROUTE to diplay all cities in select drop down menu

@@ -1,12 +1,17 @@
+import statesService from "@/services/states-service";
 import { useEffect, useState } from "react";
-import { City } from "types";
+import { City, State } from "types";
+
+
+
 
 interface prop {
   setShowCreateCity: React.Dispatch<React.SetStateAction<boolean>>;
   currentCity: City | undefined;
+  states: State[]
 }
 
-const CreateCity = ({ setShowCreateCity, currentCity }: prop) => {
+const CreateCity = ({ setShowCreateCity, currentCity, states }: prop) => {
   const [city_name, setCityName] = useState("");
   const [state_name, setStateName] = useState("");
 
@@ -16,6 +21,11 @@ const CreateCity = ({ setShowCreateCity, currentCity }: prop) => {
       setStateName(currentCity.state);
     }
   }, [currentCity]);
+
+
+  const onSubmit = async () => {
+    console.log('onSubmit')
+  }
 
   return (
     <div className="fixed h-screen w-screen flex items-center justify-center ">
@@ -62,7 +72,9 @@ const CreateCity = ({ setShowCreateCity, currentCity }: prop) => {
           </div>
         </div>
 
-        <button className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6">
+        <button className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
+        onClick={onSubmit}
+        >
           Submit
         </button>
         <div className="flex  w-full justify-end">
