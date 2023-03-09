@@ -2,6 +2,8 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import cors from 'cors'
 import * as db from "./dbcon.mjs";
+import statesRouter from "./controllers/states-controller.mjs";
+import citiesRouter from "./controllers/cities-controller.mjs";
 
 // Express
 
@@ -11,6 +13,9 @@ const PORT = 9178;
 app.use(cors());
 
 app.use(express.json());
+
+app.use('/api/States', statesRouter)
+app.use('/api/Cities', citiesRouter)
 
 /*
     ROUTE to diplay all cities in select drop down menu

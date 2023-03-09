@@ -30,12 +30,15 @@ citiesRouter.get(
 
   citiesRouter.put("/:city_id", asyncHandler(async (req, res) => {
     console.log(`Updating city with ID ${req.params.city_id}`);
+    console.log(req.body)
     const { city_name, state_id } = req.body;
   
     if (!city_name || !state_id) {
       res.status(400).send("City name and state id are required");
       return;
     }
+
+    console.log('here')
   
     const q = `UPDATE Cities SET city_name = ?, state_id = ? WHERE city_id = ?`;
     const values = [city_name, state_id, req.params.city_id];

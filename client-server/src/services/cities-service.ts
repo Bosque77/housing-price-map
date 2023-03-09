@@ -20,9 +20,24 @@ const getCities = async () => {
   return response.data;
 };
 
-export const updateCity = async (city: City) => {
-  const response = await axios.put(url, city);
+export const createCity = async (new_city: {city_name: string, state_id: number}) => {
+  // update the url so it sends it to the city id
+  const url = NEXT_API_URL + "/api/Cities/";
+  const response = await axios.post(url, new_city);
   return response.data;
 };
 
-export default { getCities };
+export const updateCity = async (updated_city: {city_id: number, city_name: string, state_id: number}) => {
+  // update the url so it sends it to the city id
+  const url = NEXT_API_URL + "/api/Cities/" + updated_city.city_id;
+  const response = await axios.put(url, updated_city );
+  return response.data;
+};
+
+const deleteCity = async (id: number) => {
+  const response = await axios.delete(url + "/" + id);
+  return response.data;
+};
+
+
+export default { getCities, updateCity, deleteCity, createCity };

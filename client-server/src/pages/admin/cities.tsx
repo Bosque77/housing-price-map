@@ -11,7 +11,7 @@ export async function getServerSideProps() {
   try {
     let cities = await citiesService.getCities();
     let states = await statesService.getStates();
-    return { props: { cities } };
+    return { props: { cities, states } };
   } catch (err) {
     const cities = [] as City[];
     const states = [] as State[];
@@ -25,6 +25,7 @@ interface prop {
 }
 
 const CitiesPage = ({cities, states}: prop) => {
+  const [state_cities, setStateCities] = useState(cities);
   const [showCreateCity, setShowCreateCity] = useState(false);
   const [currentCity, setCurrentCity] = useState(undefined);
 
@@ -36,7 +37,8 @@ const CitiesPage = ({cities, states}: prop) => {
         <div className="flex flex-row justify-center w-full bg-gray-50">
           <CitiesComponent
             states = {states}
-            cities={cities}
+            cities={state_cities}
+            setStateCities={setStateCities}
             setShowCreateCity={setShowCreateCity}
             setCurrentCity={setCurrentCity}
           />
@@ -44,6 +46,7 @@ const CitiesPage = ({cities, states}: prop) => {
         {showCreateCity && (
           <CreateCity
             states = {states}
+            setStateCities = {setStateCities}
             setShowCreateCity={setShowCreateCity}
             currentCity={currentCity}
           />
@@ -56,6 +59,7 @@ const CitiesPage = ({cities, states}: prop) => {
 interface prop {
   setShowCreateCity: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentCity: React.Dispatch<React.SetStateAction<any>>;
+  setStateCities: React.Dispatch<React.SetStateAction<any>>;
   cities: City[];
   states: State[]
 }
@@ -63,6 +67,7 @@ interface prop {
 const CitiesComponent = ({
   setShowCreateCity,
   setCurrentCity,
+  setStateCities,
   cities,
   states,
 }: prop) => {
@@ -71,9 +76,21 @@ const CitiesComponent = ({
     setShowCreateCity(true);
   };
 
-  const onEdit = (city: City) => {
+  const onEdit = async (city: City) => {
+
     setCurrentCity(city);
     setShowCreateCity(true);
+
+  };
+
+  const onDelete = async (id: number) => {
+    try {
+      await citiesService.deleteCity(id);
+      const filteredCities = cities.filter((city) => city.city_id !== id);
+      setStateCities(filteredCities);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -106,7 +123,7 @@ const CitiesComponent = ({
                           <td className="border px-4 py-2">{city.city_name}</td>
                           <td className="border px-4 py-2">{city.state}</td>
                           <td className="px-4">
-                            <button
+                            <button 
                               className="hover:underline hover:underline-offset-1"
                               onClick={() => onEdit(city)}
                             >
@@ -114,7 +131,9 @@ const CitiesComponent = ({
                             </button>
                           </td>
                           <td className="px-4">
-                            <button className="hover:underline hover:underline-offset-1">
+                            <button className="hover:underline hover:underline-offset-1"
+                            onClick={() => onDelete(city.city_id as number)}
+                            >
                               Delete
                             </button>
                           </td>

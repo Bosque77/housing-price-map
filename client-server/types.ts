@@ -14,6 +14,7 @@ export interface House {
 
 export interface City {
     city_id?: number;
+    state_id?: number;
     city_name: string;
     state: string;
 }

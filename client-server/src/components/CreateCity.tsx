@@ -1,17 +1,16 @@
 import statesService from "@/services/states-service";
 import { useEffect, useState } from "react";
 import { City, State } from "types";
-
-
-
+import citiesService from "@/services/cities-service";
 
 interface prop {
   setShowCreateCity: React.Dispatch<React.SetStateAction<boolean>>;
+  setStateCities: React.Dispatch<React.SetStateAction<any>>;
   currentCity: City | undefined;
-  states: State[]
+  states: State[];
 }
 
-const CreateCity = ({ setShowCreateCity, currentCity, states }: prop) => {
+const CreateCity = ({ setShowCreateCity, setStateCities,currentCity, states }: prop) => {
   const [city_name, setCityName] = useState("");
   const [state_name, setStateName] = useState("");
 
@@ -22,10 +21,61 @@ const CreateCity = ({ setShowCreateCity, currentCity, states }: prop) => {
     }
   }, [currentCity]);
 
+  const onCreate = async () => {
+    console.log("onSubmit");
+    try{
+      const state = states.find((state) => state.name === state_name);
 
-  const onSubmit = async () => {
-    console.log('onSubmit')
+      if (!state) {
+        throw new Error("State not found");
+      }else{
+  
+        const new_city = {"city_name": city_name, "state_id": state?.state_id as number}  
+        // now update the city using the citiesRouter
+        await citiesService.createCity(new_city);
+        
+        const new_cities = await citiesService.getCities();
+        
+        setStateCities(new_cities);
+
+        setShowCreateCity(false);
+      }
+    }catch(err){
+      console.log(err);
+    }
+
+
   }
+
+  const onEdit = async () => {
+    console.log("onSubmit");
+
+    try {
+      if (currentCity) {
+        // find the state id from the cities state name
+        console.log(states)
+        const state = states.find((state) => state.name === state_name);
+
+        if (!state) {
+          throw new Error("State not found");
+        }else{
+          currentCity.state_id = state?.state_id as number;
+          const updated_city = {"city_id" : currentCity.city_id as number, "city_name": city_name, "state_id": state?.state_id as number}  
+          // now update the city using the citiesRouter
+          await citiesService.updateCity(updated_city);
+
+          const new_cities = await citiesService.getCities();
+        
+          setStateCities(new_cities);
+
+          setShowCreateCity(false);
+        }
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="fixed h-screen w-screen flex items-center justify-center ">
@@ -71,12 +121,21 @@ const CreateCity = ({ setShowCreateCity, currentCity, states }: prop) => {
             />
           </div>
         </div>
-
-        <button className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
-        onClick={onSubmit}
-        >
-          Submit
-        </button>
+        {currentCity ? (
+          <button
+            className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
+            onClick={onEdit}
+          >
+            Submit
+          </button>
+        ) : (
+          <button
+            className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
+            onClick={onCreate}
+          >
+            Submit
+          </button>
+        )}
         <div className="flex  w-full justify-end">
           <button
             className="text-black mt-8  active:scale-95 hover:text-black hover:underline hover:underline-offset-1 "
