@@ -11,7 +11,7 @@
   "/api/hello": "pages/api/hello.js",
   "/api/middleware": "pages/api/middleware.js",
   "/": "pages/index.html",
-  "/admin/cities": "pages/admin/cities.js",
   "/admin/houses": "pages/admin/houses.js",
+  "/admin/cities": "pages/admin/cities.js",
   "/404": "pages/404.html"
 }

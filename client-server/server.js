@@ -5,10 +5,11 @@ const next = require("next");
 
 
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "localhost";
+// const hostname = "localhost";
+const hostname2 = "http://flip1.engr.oregonstate.edu/"
 const port = 2000;
 // when using middleware `hostname` and `port` must be provided below
-const app = next({ dev, hostname, port });
+const app = next({ dev, hostname2, port });
 const handle = app.getRequestHandler();
 
 
