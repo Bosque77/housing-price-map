@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 export async function getServerSideProps() {
   try {
     let cities = await citiesService.getCities();
+    console.log(cities)
     const city_id = cities[0].city_id;
     const homes = await homesService.getHomes(city_id);
     return { props: { cities, homes } };
