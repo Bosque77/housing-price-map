@@ -73,13 +73,14 @@ const CreateHouse = ({
         lat: parseInt(lat),
         lng: parseInt(lng),
         zip: zip,
-        city_id: city_id as number,
         city_name: city
       };
 
       console.log(updated_house)
-
-      const returned_new_home = await homesService.updateHome(updated_house);
+      debugger
+      const response = await homesService.updateHome(updated_house);
+      console.log(response)
+      debugger
       setShowCreateHouse(false);
       updateHomes();
     } catch (error) {

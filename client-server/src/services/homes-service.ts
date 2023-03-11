@@ -26,7 +26,7 @@ export const getHomes = async (city_id: number) => {
 };
 
 export const updateHome = async (house: House) => {
-  const response = await axios.put(url+`/${house.home_id}`, {house});
+  const response = await axios.put(url+`/${house.home_id}`, house);
   return response.data;
 };
 
