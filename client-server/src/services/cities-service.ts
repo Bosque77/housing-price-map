@@ -26,12 +26,12 @@ export const createCity = async (new_city: {city_name: string, state_id: number}
 };
 
 export const updateCity = async (updated_city: {city_id: number, city_name: string, state_id: number}) => {
-  const response = await axios.put(url, {updated_city}, {params: {city_id: updated_city.city_id}} );
+  const response = await axios.put(url+`/${updated_city.city_id}`, updated_city );
   return response.data;
 };
 
 const deleteCity = async (id: number) => {
-  const response = await axios.delete(url, {params: {id}});
+  const response = await axios.delete(url + `/${id}`);
   return response.data;
 };
 
