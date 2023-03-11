@@ -14,24 +14,26 @@ export async function getServerSideProps() {
   try {
     let cities = await citiesService.getCities();
     const city_id = cities[0].city_id;
-    const homes = await homesService.getHomes(city_id);
-    return { props: { cities, homes } };
+    const input_homes = await homesService.getHomes(city_id);
+    const test = 25
+    return { props: { cities, input_homes, test } };
   } catch (err) {
     const cities = [] as City[];
-    const homes = [] as any[];
-    return { props: { cities, homes } };
+    const input_homes = [] as any[];
+    return { props: { cities, input_homes } };
   }
 }
 
 interface prop {
   cities: City[];
-  homes: any;
+  input_homes: House[];
+  test: any
 }
 
-const HousesPage = ({ cities, homes }: prop) => {
+const HousesPage = ({ cities, input_homes, test }: prop) => {
   
   console.log('re-rendering page')
-  const [state_homes, setStateHomes] = useState(homes);
+  const [homes, setStateHomes] = useState(input_homes);
   const [showCreateHouse, setShowCreateHouse] = useState(false);
   const [currentHouse, setCurrentHouse] = useState(undefined);
   const [currentCity, setCurrentCity] = useState<City | undefined>(undefined);
@@ -39,17 +41,24 @@ const HousesPage = ({ cities, homes }: prop) => {
   const [shouldDelete, setShouldDelete] = useState(false);
   const [should_delete_object_name, setShouldDeleteObjectName] = useState("");
 
+  const [state_test, setTest] = useState(test)
+
 
 
   const updateHomes = async () => {
-          window.location.reload()
-    // if (currentCity) {
-    //   console.log('inside call back function updating homes')
-    //   const updated_homes = await homesService.getHomes(currentCity.city_id as number);
-    //   console.log(updated_homes)
-    //   setStateHomes(updated_homes);
-
-    // }
+          // window.location.reload()
+    if (currentCity) {
+      console.log('inside call back function updating homes')
+      const updated_homes = await homesService.getHomes(currentCity.city_id as number);
+      console.log(updated_homes)
+      setTest(state_test+1)
+      setStateHomes(updated_homes);
+    }else{
+      const updated_homes = await homesService.getHomes(cities[0].city_id as number);
+      console.log(updated_homes)
+      setTest(state_test+1)
+      setStateHomes(updated_homes);
+    }
   };
 
   return (
@@ -57,9 +66,9 @@ const HousesPage = ({ cities, homes }: prop) => {
       <Header />
       <div className="flex flex-row h-screen ">
         <SideNav />
-
+        <div>{state_test}</div>
         <div className="flex flex-col justify-start w-full bg-gray-50 mt-4">
-          {cities.length === 0 && state_homes.length === 0 && (
+          {cities.length === 0 && homes.length === 0 && (
             <div className="flex flex-col justify-center items-center w-full">
               <h1 className="text-2xl font-bold">No cities or homes found</h1>
               <h1 className="text-2xl font-bold">
@@ -73,7 +82,7 @@ const HousesPage = ({ cities, homes }: prop) => {
             setShowDeleteModal={setShowDeleteModal}
             setCurrentCity={setCurrentCity}
             cities={cities}
-            homes={state_homes}
+            homes={homes}
           />
         </div>
         {showCreateHouse && (

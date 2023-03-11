@@ -24,13 +24,13 @@ export const getRegions = async () => {
 };
 
 export const updateRegion = async (region: Region) => {
-  const response = await axios.put(url, region, { params: { region_id: region.region_id } });
+  const response = await axios.put(url+`/${region.region_id}`, region);
   return response.data;
 };
 
 export const deleteRegion = async (region_id: number) => {
   
-  const response = await axios.delete(url, { params: { region_id } });
+  const response = await axios.delete(url+`/${region_id}`);
   return response.data;
 };
 
