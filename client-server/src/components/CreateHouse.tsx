@@ -1,3 +1,5 @@
+import Home from "@/pages";
+import homesService from "@/services/homes-service";
 import { useEffect, useState } from "react";
 import { House, City } from "types";
 
@@ -5,6 +7,7 @@ const cities_url = "http://flip1.engr.oregonstate.edu:9178/dropdown_cities";
 
 interface prop {
   setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>;
+  updateHomes: () => void;
   currentHouse: House | undefined;
   currentCity: City | undefined;
   cities: City[];
@@ -13,6 +16,7 @@ interface prop {
 const CreateHouse = ({
   setShowCreateHouse,
   currentHouse,
+  updateHomes,
   currentCity,
   cities,
 }: prop) => {
@@ -28,6 +32,7 @@ const CreateHouse = ({
   const [lng, setLng] = useState("");
 
   useEffect(() => {
+    console.log("inside use effect");
     if (currentCity) {
       setCity(currentCity.city_name);
     }
@@ -37,41 +42,46 @@ const CreateHouse = ({
       setSqft(currentHouse.sq_ft.toString());
       setBeds(currentHouse.num_of_bed.toString());
       setBaths(currentHouse.num_of_bath.toString());
-      setCity(currentHouse.city_name);
+      setCity(currentHouse.city_name as string);
       setYear(currentHouse.year_built.toString());
       setLat(currentHouse.lat.toString());
       setLng(currentHouse.lng.toString());
     }
   }, [currentHouse]);
 
+  const onSetCity = (city_name: string) => {
+    console.log("inside on set city");
+    setCity(city_name);
+  };
 
   const onEditHouse = async () => {
     console.log("inside on edit house");
-    const homes_url = "http://flip1.engr.oregonstate.edu:9178/Homes";
-    try {
-      const response = await fetch(homes_url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          home_id: currentHouse?.home_id,
-          street: street,
-          sq_ft: sq_ft,
-          num_of_bed: num_of_bed,
-          num_of_bath: num_of_bath,
-          year_built: year_built,
-          lat: lat,
-          lng: lng,
-          zip: zip,
-          city_name: city,
-        }),
-      });
 
-      if (response.ok) {
-        console.log("house edited successfully");
-        setShowCreateHouse(false);
-      }
+
+    try {
+      const city_id = cities.find(
+        (current_city) => current_city.city_name === city
+      )?.city_id;
+
+      const updated_house = {
+        home_id: currentHouse?.home_id,
+        street: street,
+        sq_ft: parseInt(sq_ft),
+        num_of_bed: parseInt(num_of_bed),
+        num_of_bath: parseInt(num_of_bath),
+        year_built: parseInt(year_built),
+        lat: parseInt(lat),
+        lng: parseInt(lng),
+        zip: zip,
+        city_id: city_id as number,
+        city_name: city
+      };
+
+      console.log(updated_house)
+
+      const returned_new_home = await homesService.updateHome(updated_house);
+      setShowCreateHouse(false);
+      updateHomes();
     } catch (error) {
       console.log(error);
     }
@@ -79,30 +89,29 @@ const CreateHouse = ({
 
   const onCreateHouse = async () => {
     console.log("inside on create house");
-    const homes_url = "http://flip1.engr.oregonstate.edu:9178/Homes";
     try {
-      const response = await fetch(homes_url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          street: street,
-          sq_ft: sq_ft,
-          num_of_bed: num_of_bed,
-          num_of_bath: num_of_bath,
-          year_built: year_built,
-          lat: lat,
-          lng: lng,
-          zip: zip,
-          city_name: city,
-        }),
-      });
+      const city_id = cities.find(
+        (current_city) => current_city.city_name === city
+      )?.city_id;
 
-      if (response.ok) {
-        console.log("house created successfully");
-        setShowCreateHouse(false);
-      }
+      const new_house = {
+        street: street,
+        sq_ft: parseInt(sq_ft),
+        num_of_bed: parseInt(num_of_bed),
+        num_of_bath: parseInt(num_of_bath),
+        year_built: parseInt(year_built),
+        lat: parseInt(lat),
+        lng: parseInt(lng),
+        zip: zip,
+        city_id: city_id as number,
+        city_name: city,
+      };
+
+      const returned_new_home = await homesService.createHome(new_house);
+      console.log('about to add the returned home')
+      console.log(returned_new_home)
+      setShowCreateHouse(false);
+      updateHomes();
     } catch (error) {
       console.log(error);
     }
@@ -152,8 +161,8 @@ const CreateHouse = ({
             <select
               className=" border rounded-md pl-2 pr-12 py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
               placeholder="City"
-              value={currentCity?.city_name}
-              onChange={(e) => setCity(e.target.value)}
+              value={city}
+              onChange={(e) => onSetCity(e.target.value)}
             >
               {insertCities()}
             </select>
@@ -281,17 +290,21 @@ const CreateHouse = ({
           </div>
         </div>
 
-        { currentHouse ? (<button
-          className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
-          onClick={onEditHouse}
-        >
-          Submit
-        </button>) : (<button
-          className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
-          onClick={onCreateHouse}
-        >
-          Submit
-        </button>) }
+        {currentHouse ? (
+          <button
+            className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
+            onClick={onEditHouse}
+          >
+            Submit
+          </button>
+        ) : (
+          <button
+            className="rounded px-4 py-2 shadow text-white bg-black mt-8 hover:bg-black active:scale-95 mr-6"
+            onClick={onCreateHouse}
+          >
+            Submit
+          </button>
+        )}
         <div className="flex  w-full justify-end">
           <button
             className="text-black mt-8  active:scale-95 hover:text-black hover:underline hover:underline-offset-1 "

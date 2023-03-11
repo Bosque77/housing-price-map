@@ -24,7 +24,7 @@ export const getRegions = async () => {
 };
 
 export const updateRegion = async (region: Region) => {
-  const response = await axios.put(url, region);
+  const response = await axios.put(url, region, { params: { region_id: region.region_id } });
   return response.data;
 };
 

@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 export async function getServerSideProps() {
   try {
     let cities = await citiesService.getCities();
-    console.log(cities)
     const city_id = cities[0].city_id;
     const homes = await homesService.getHomes(city_id);
     return { props: { cities, homes } };
@@ -30,12 +29,28 @@ interface prop {
 }
 
 const HousesPage = ({ cities, homes }: prop) => {
+  
+  console.log('re-rendering page')
+  const [state_homes, setStateHomes] = useState(homes);
   const [showCreateHouse, setShowCreateHouse] = useState(false);
   const [currentHouse, setCurrentHouse] = useState(undefined);
-  const [currentCity, setCurrentCity] = useState(undefined);
+  const [currentCity, setCurrentCity] = useState<City | undefined>(undefined);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [shouldDelete, setShouldDelete] = useState(false);
   const [should_delete_object_name, setShouldDeleteObjectName] = useState("");
+
+
+
+  const updateHomes = async () => {
+          window.location.reload()
+    // if (currentCity) {
+    //   console.log('inside call back function updating homes')
+    //   const updated_homes = await homesService.getHomes(currentCity.city_id as number);
+    //   console.log(updated_homes)
+    //   setStateHomes(updated_homes);
+
+    // }
+  };
 
   return (
     <div className="bg-gray-50 h-screen">
@@ -44,7 +59,7 @@ const HousesPage = ({ cities, homes }: prop) => {
         <SideNav />
 
         <div className="flex flex-col justify-start w-full bg-gray-50 mt-4">
-          {cities.length === 0 && homes.length === 0 && (
+          {cities.length === 0 && state_homes.length === 0 && (
             <div className="flex flex-col justify-center items-center w-full">
               <h1 className="text-2xl font-bold">No cities or homes found</h1>
               <h1 className="text-2xl font-bold">
@@ -58,12 +73,13 @@ const HousesPage = ({ cities, homes }: prop) => {
             setShowDeleteModal={setShowDeleteModal}
             setCurrentCity={setCurrentCity}
             cities={cities}
-            homes={homes}
+            homes={state_homes}
           />
         </div>
         {showCreateHouse && (
           <CreateHouse
             setShowCreateHouse={setShowCreateHouse}
+            updateHomes={updateHomes}
             currentHouse={currentHouse}
             currentCity={currentCity}
             cities={cities}

@@ -62,16 +62,14 @@ interface prop {
       );
       if (current_city) {
         setCurrentCity(current_city);
-        const query_data = {
-          cityid: city_id,
-        };
-        const queryParams = new URLSearchParams(query_data).toString();
-        const homes_url = `http://flip1.engr.oregonstate.edu:9178/Homes?${queryParams}`;
-        console.log(homes_url);
-        const res_2 = await fetch(homes_url);
-        homes = await res_2.json();
-        console.log(homes);
-        setHomes(homes);
+        try{
+          const homes = await homesService.getHomes(parseInt(city_id));
+          setHomes(homes);
+        }catch (e){
+          console.log(e)
+          setHomes([])
+        }
+
       }
     };
   

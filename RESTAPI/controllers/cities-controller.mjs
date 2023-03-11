@@ -22,6 +22,7 @@ citiesRouter.get(
           console.log(err);
           res.status(500).send(err.message);
         } else {
+          console.log(result);
           res.status(200).send(JSON.stringify(result));
         }
       });

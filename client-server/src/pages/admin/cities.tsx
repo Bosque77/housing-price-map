@@ -101,11 +101,11 @@ const CitiesComponent = ({
             <div className="text-center max-w-screen-lg ">
               <div>
                 <h1 className="text-2xl font-bold mb-4">Cities</h1>
-                <label className="mr-2">Filter By State</label>
+                {/* <label className="mr-2">Filter By State</label>
                 <input
                   placeholder="State"
                   className=" border rounded-md pl-2 py-2 mt-2 focus:outline-none focus:border-indigo-500 focus:border-2 sm:text-sm text-left"
-                />
+                /> */}
                 <div className="shadow bg-white px-8 py-8 rounded text-center mt-4">
                   <table className="table-auto w-full">
                     <thead>
