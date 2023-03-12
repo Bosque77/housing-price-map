@@ -3,8 +3,7 @@ import { City, Region } from "types";
 import AddCitytoRegion from "./AddCitytoRegion";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import citiesService from "@/services/cities-service";
-
-
+import regionsService from "@/services/regions-service";
 
 interface prop {
   currentRegion: Region;
@@ -12,28 +11,21 @@ interface prop {
 }
 
 const RegionDetails = ({ currentRegion, all_cities }: prop) => {
-
-
   const [region_description, setRegionDescription] = useState<string>("");
   const [region_name, setRegionName] = useState<string>("");
   const [cities, setCities] = useState<string[]>([]);
   const [showAddCity, setShowAddCity] = useState<boolean>(false);
 
-
   useEffect(() => {
     setRegionName(currentRegion.region_name);
     setRegionDescription(currentRegion.region_description);
     setCities(currentRegion.cities);
-
-  },[currentRegion])
-
+  }, [currentRegion]);
 
   const removeCity = (city_name: string) => {
     console.log("inside remove city");
-    
-    const updated_cities = cities.filter(
-      (city: string) => city !== city_name
-    );
+
+    const updated_cities = cities.filter((city: string) => city !== city_name);
     setCities(updated_cities);
   };
 
@@ -44,7 +36,37 @@ const RegionDetails = ({ currentRegion, all_cities }: prop) => {
   const onAddCity = (city_name: string) => {
     setShowAddCity(false);
     setCities([...cities, city_name]);
-  }
+  };
+
+  const updateRegion = async () => {
+    console.log("inside update region");
+    try {
+      const updated_region = {
+        region_id: currentRegion.region_id,
+        region_name,
+        region_description,
+        cities,
+      };
+      console.log(updated_region);
+      const response = await regionsService.updateRegion(updated_region);
+      // now reload the window
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onDeleteRegion = async () => {
+    console.log("inside delete region");
+    try {
+      const response = await regionsService.deleteRegion(currentRegion.region_id as number);
+      // now reload the window
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   const insertCities = (cities: string[]) => {
     return cities.map((city: string) => (
@@ -66,9 +88,7 @@ const RegionDetails = ({ currentRegion, all_cities }: prop) => {
           rounded-lg outline outline-offset-2 outline-1 outline-slate-500 focus:outline-blue-500
                 text-start
                 h-36"
-          onChange={(e) =>
-            setRegionDescription(e.target.value)
-          }
+          onChange={(e) => setRegionDescription(e.target.value)}
           value={region_description}
         />
         <label className="mt-4 text-lg font-bold">Cities</label>
@@ -87,10 +107,14 @@ const RegionDetails = ({ currentRegion, all_cities }: prop) => {
           <button
             type="button"
             className="mr-4 hover:underline hover:underline-offset-1 text-slate-700 hover:text-black active:scale-95"
+            onClick={onDeleteRegion}
           >
             Delete
           </button>
-          <button className=" bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:scale-95">
+          <button
+            className=" bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 active:scale-95"
+            onClick={updateRegion}
+          >
             Save
           </button>
         </div>

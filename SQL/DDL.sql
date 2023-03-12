@@ -77,7 +77,7 @@ CREATE OR REPLACE TABLE Region_has_Cities (
     region_id INT(10) NOT NULL,
     PRIMARY KEY (region_has_cities_id),
     FOREIGN KEY (city_id) REFERENCES Cities (city_id) ON DELETE CASCADE,
-    FOREIGN KEY (region_id) REFERENCES Regions (region_id)
+    FOREIGN KEY (region_id) REFERENCES Regions (region_id) ON DELETE CASCADE
 );
 
 -- insert sample data into states
