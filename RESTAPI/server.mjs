@@ -6,6 +6,7 @@ import middleware from "./utils/middleware.mjs";
 import citiesRouter from "./controllers/cities-controller.mjs";
 import statesRouter from "./controllers/states-controller.mjs";
 import homesRouter from "./controllers/homes-controller.mjs";
+import regionsRouter from "./controllers/regions-controller.mjs";
 
 // Express
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use('/api/Cities', citiesRouter)
 app.use('/api/States', statesRouter)
 app.use('/api/Homes', homesRouter)
+app.use('/api/Regions', regionsRouter)
 
 
 

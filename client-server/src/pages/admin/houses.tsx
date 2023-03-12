@@ -15,8 +15,7 @@ export async function getServerSideProps() {
     let cities = await citiesService.getCities();
     const city_id = cities[0].city_id;
     const input_homes = await homesService.getHomes(city_id);
-    const test = 25
-    return { props: { cities, input_homes, test } };
+    return { props: { cities, input_homes } };
   } catch (err) {
     const cities = [] as City[];
     const input_homes = [] as any[];
@@ -27,12 +26,10 @@ export async function getServerSideProps() {
 interface prop {
   cities: City[];
   input_homes: House[];
-  test: any
 }
 
-const HousesPage = ({ cities, input_homes, test }: prop) => {
-  
-  console.log('re-rendering page')
+const HousesPage = ({ cities, input_homes }: prop) => {
+  console.log("re-rendering page");
   const [homes, setStateHomes] = useState(input_homes);
   const [showCreateHouse, setShowCreateHouse] = useState(false);
   const [currentHouse, setCurrentHouse] = useState(undefined);
@@ -41,22 +38,22 @@ const HousesPage = ({ cities, input_homes, test }: prop) => {
   const [shouldDelete, setShouldDelete] = useState(false);
   const [should_delete_object_name, setShouldDeleteObjectName] = useState("");
 
-  const [state_test, setTest] = useState(test)
-
-
-
   const updateHomes = async () => {
-          // window.location.reload()
+    // window.location.reload()
     if (currentCity) {
-      console.log('inside call back function updating homes')
-      const updated_homes = await homesService.getHomes(currentCity.city_id as number);
-      console.log(updated_homes)
-      setTest(state_test+1)
+      console.log("inside call back function updating homes");
+      const updated_homes = await homesService.getHomes(
+        currentCity.city_id as number
+      );
+      console.log(updated_homes);
+
       setStateHomes(updated_homes);
-    }else{
-      const updated_homes = await homesService.getHomes(cities[0].city_id as number);
-      console.log(updated_homes)
-      setTest(state_test+1)
+    } else {
+      const updated_homes = await homesService.getHomes(
+        cities[0].city_id as number
+      );
+      console.log(updated_homes);
+
       setStateHomes(updated_homes);
     }
   };
@@ -66,7 +63,7 @@ const HousesPage = ({ cities, input_homes, test }: prop) => {
       <Header />
       <div className="flex flex-row h-screen ">
         <SideNav />
-        <div>{state_test}</div>
+
         <div className="flex flex-col justify-start w-full bg-gray-50 mt-4">
           {cities.length === 0 && homes.length === 0 && (
             <div className="flex flex-col justify-center items-center w-full">

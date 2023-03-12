@@ -2,7 +2,7 @@
 import axios from "axios";
 import { NEXT_API_URL } from "./config";
 import { Region } from "types";
-const url = NEXT_API_URL + "/Regions";
+const url = NEXT_API_URL + "/api/Regions";
 
 // Define an Axios interceptor to handle errors globally
 axios.interceptors.response.use(

@@ -52,7 +52,7 @@ CREATE OR REPLACE TABLE Zillow_Estimates (
 CREATE OR REPLACE TABLE Regions (
     region_id INT(10) NOT NULL UNIQUE AUTO_INCREMENT,
     region_name VARCHAR(80),
-    region_desription VARCHAR(180) NOT NULL,
+    region_description VARCHAR(180) NOT NULL,
     PRIMARY KEY (region_id)
 );
 
@@ -111,7 +111,7 @@ VALUES
   (1245481, '2022-01-01', (SELECT home_id FROM Homes WHERE home_id = 3)),
   (7245681, '2022-01-01', (SELECT home_id FROM Homes WHERE home_id = 4));
 
-INSERT INTO Regions (region_name, region_desription)
+INSERT INTO Regions (region_name, region_description)
 VALUES
     ('Bay Area', 'Placeholder'),
     ('New York', 'Placeholder'),

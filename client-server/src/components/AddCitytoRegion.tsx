@@ -1,27 +1,25 @@
 import { useEffect, useState } from "react";
 import { City, Region } from "types";
-import { cities } from "@/data/ex_data.js";
+
 
 interface prop {
-  setCurrentRegion: React.Dispatch<React.SetStateAction<Region>>;
   setShowAddCity: React.Dispatch<React.SetStateAction<boolean>>;
-  currentRegion:Region;
+  cities: string[];
+  all_cities: City[];
+  onAddCity: (city_name: string) => void;
 }
 
-const AddCitytoRegion = ({ setShowAddCity, currentRegion, setCurrentRegion }: prop) => {
+const AddCitytoRegion = ({ setShowAddCity, cities, all_cities, onAddCity }: prop) => {
 
 
-  const filtered_cities = cities.filter((city: City) => { return(!currentRegion.cities.includes(city.city_name)) })
+  const filtered_cities = all_cities.filter((city: City) => { return(!cities.includes(city.city_name)) })
   const numColumns = Math.min(filtered_cities.length, 5); // calculate number of columns
 
   console.log('logging num of columns')
   console.log(numColumns)
 
   const onCitySelect = (city_name: string) => {
-    const updated_region = {...currentRegion};
-    updated_region.cities.push(city_name);
-    setCurrentRegion(updated_region);
-    setShowAddCity(false);
+    onAddCity(city_name)
   };
 
   const insertCities = () => {

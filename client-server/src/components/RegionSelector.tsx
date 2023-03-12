@@ -1,12 +1,15 @@
-import { regions } from "@/data/ex_data";
+
 import { Region } from "types";
 import DeleteModal from "./DeleteModal";
 
 interface prop {
     setCurrentRegion: React.Dispatch<React.SetStateAction<any>>;
+    regions: Region[]
   }
   
-  const RegionsSelector = ({ setCurrentRegion }: prop) => {
+  const RegionsSelector = ({ setCurrentRegion, regions }: prop) => {
+
+    
     const onEdit = (region: Region) => {
       setCurrentRegion(region);
     };
@@ -14,7 +17,7 @@ interface prop {
     const onRegionSelected = (region_id: string) => {
       console.log(region_id);
       const selected_region = regions.find(
-        (region) => region.region_id.toString() === region_id
+        (region) => (region.region_id as number).toString()  === region_id
       );
       console.log(selected_region);
       setCurrentRegion(selected_region);

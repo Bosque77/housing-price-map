@@ -1,29 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { City, Region } from "types";
 import AddCitytoRegion from "./AddCitytoRegion";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import citiesService from "@/services/cities-service";
+
+
 
 interface prop {
   currentRegion: Region;
+  all_cities: City[];
 }
 
-const RegionDetails = ({ currentRegion }: prop) => {
-  const [state_currentRegion, setCurrentRegion] =
-    useState<Region>(currentRegion);
+const RegionDetails = ({ currentRegion, all_cities }: prop) => {
+
+
+  const [region_description, setRegionDescription] = useState<string>("");
+  const [region_name, setRegionName] = useState<string>("");
+  const [cities, setCities] = useState<string[]>([]);
   const [showAddCity, setShowAddCity] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    setRegionName(currentRegion.region_name);
+    setRegionDescription(currentRegion.region_description);
+    setCities(currentRegion.cities);
+
+  },[currentRegion])
+
 
   const removeCity = (city_name: string) => {
     console.log("inside remove city");
-    const new_region = { ...state_currentRegion };
-    new_region.cities = new_region.cities.filter(
+    
+    const updated_cities = cities.filter(
       (city: string) => city !== city_name
     );
-    setCurrentRegion(new_region);
+    setCities(updated_cities);
   };
 
   const addcity = () => {
     setShowAddCity(true);
   };
+
+  const onAddCity = (city_name: string) => {
+    setShowAddCity(false);
+    setCities([...cities, city_name]);
+  }
 
   const insertCities = (cities: string[]) => {
     return cities.map((city: string) => (
@@ -39,23 +60,20 @@ const RegionDetails = ({ currentRegion }: prop) => {
   return (
     <>
       <div className="flex flex-col w-3/4 bg-white px-8 py-8 shadow">
-        <h2 className="text-xl font-bold mb-4">{state_currentRegion.region_name}</h2>
+        <h2 className="text-xl font-bold mb-4">{region_name}</h2>
         <textarea
           className="
           rounded-lg outline outline-offset-2 outline-1 outline-slate-500 focus:outline-blue-500
                 text-start
                 h-36"
           onChange={(e) =>
-            setCurrentRegion({
-              ...state_currentRegion,
-              region_description: e.target.value,
-            })
+            setRegionDescription(e.target.value)
           }
-          value={state_currentRegion.region_description}
+          value={region_description}
         />
         <label className="mt-4 text-lg font-bold">Cities</label>
         <div className="grid grid-cols-5 gap-x-4 gap-y-4 mt-4 text-center">
-          {insertCities(state_currentRegion.cities)}
+          {insertCities(cities)}
 
           <button
             className="px-4 py-2 bg-gray-200 text-slate-700 rounded hover:text-black hover:bg-gray-400 active:scale-95 "
@@ -80,8 +98,9 @@ const RegionDetails = ({ currentRegion }: prop) => {
       {showAddCity && (
         <AddCitytoRegion
           setShowAddCity={setShowAddCity}
-          currentRegion={state_currentRegion}
-          setCurrentRegion={setCurrentRegion}
+          cities={cities}
+          all_cities={all_cities}
+          onAddCity={onAddCity}
         />
       )}
     </>

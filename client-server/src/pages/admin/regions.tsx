@@ -1,41 +1,37 @@
 import Header from "@/components/Header";
 import SideNav from "@/components/SidNav";
 import CreateCity from "@/components/CreateCity";
-import { Region } from "types";
+import { City, Region } from "types";
 
-import { regions } from "@/data/ex_data.js";
 import { useState } from "react";
 import RegionsSelector from "@/components/RegionSelector";
 import Regiondetails from "@/components/RegionDetails";
 import regionsService from "@/services/regions-service";
-
+import citiesService from "@/services/cities-service";
 
 export async function getServerSideProps() {
   try {
     let regions = await regionsService.getRegions();
+    let all_cities = await citiesService.getCities();
+    return { props: { regions, all_cities } };
   } catch (err) {
-    const regions= [] as Region[];
+    const regions = [] as Region[];
+    const all_cities = [] as City[];
+    return { props: { regions, all_cities } };
   }
 
-  const test_data = 25
-  return { props: { regions, test_data } };
+
 }
 
 interface props {
   regions: Region[];
-  test_data: number;
+  all_cities: City[];
 }
 
-const RegionsPage = ({regions, test_data}:props) => {
+const RegionsPage = ({ regions, all_cities }: props) => {
   const [currentRegion, setCurrentRegion] = useState<Region | undefined>(
     undefined
   );
-
-  const [state_test_data, setStateTestData] = useState(test_data);
-
-
-
-
 
   return (
     <div className="bg-gray-50 h-screen">
@@ -43,16 +39,12 @@ const RegionsPage = ({regions, test_data}:props) => {
       <div className="flex flex-row h-screen ">
         <SideNav />
         <div className="flex flex-col items-center bg-gray-50 w-full">
-          <div>{state_test_data}</div>
-          <button onClick={() => setStateTestData(state_test_data+1)}>click me</button>
-          <RegionsSelector setCurrentRegion={setCurrentRegion} />
-          {currentRegion  && <Regiondetails currentRegion={currentRegion} /> }
+          <RegionsSelector setCurrentRegion={setCurrentRegion} regions={regions}/>
+          {currentRegion && <Regiondetails currentRegion={currentRegion} all_cities={all_cities}/>}
         </div>
       </div>
     </div>
   );
 };
-
-
 
 export default RegionsPage;
