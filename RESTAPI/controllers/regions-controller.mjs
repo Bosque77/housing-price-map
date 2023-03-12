@@ -35,78 +35,111 @@ regionsRouter.get(
   })
 );
 
-regionsRouter.put("/:region_id", asyncHandler(async (req, res) => {
+regionsRouter.put(
+  "/:region_id",
+  asyncHandler(async (req, res) => {
     console.log(`Updating region with ID ${req.params.region_id}`);
     const { region_name, region_description, cities } = req.body;
-  
+
     if (!region_name || !region_description) {
       res.status(400).send("Region name and description are required");
       return;
     }
-  
+
     // Update the region name and description
     const q = `UPDATE Regions SET region_name = ?, region_description = ? WHERE region_id = ?`;
     const values = [region_name, region_description, req.params.region_id];
-  
+
     db.pool.query(q, values, (err, result) => {
       if (err) {
         console.log(err);
         res.status(500).send(err.message);
         return;
       }
-  
-      console.log(`Region with ID ${req.params.region_id} updated successfully`);
-  
+
+      console.log(
+        `Region with ID ${req.params.region_id} updated successfully`
+      );
+
       // Delete all cities associated with the region
       const q2 = `DELETE FROM Region_has_Cities WHERE region_id = ?`;
       const values2 = [req.params.region_id];
-  
+
       db.pool.query(q2, values2, (err, result) => {
         if (err) {
           console.log(err);
           res.status(500).send(err.message);
           return;
         }
-  
-        console.log(`Deleted existing cities associated with region ${req.params.region_id}`);
-  
+
+        console.log(
+          `Deleted existing cities associated with region ${req.params.region_id}`
+        );
+
         // Add new cities associated with the region
         const q3 = `INSERT INTO Region_has_Cities (city_id, region_id) 
                     SELECT Cities.city_id, ? FROM Cities WHERE Cities.city_name IN (?)`;
         const values3 = [req.params.region_id, cities];
-  
+
         db.pool.query(q3, values3, (err, result) => {
           if (err) {
             console.log(err);
             res.status(500).send(err.message);
             return;
           }
-  
-          console.log(`Added new cities associated with region ${req.params.region_id}`);
-  
-          res.status(200).send(`Region with ID ${req.params.region_id} updated successfully`);
+
+          console.log(
+            `Added new cities associated with region ${req.params.region_id}`
+          );
+
+          res
+            .status(200)
+            .send(
+              `Region with ID ${req.params.region_id} updated successfully`
+            );
         });
       });
     });
-  }));
+  })
+);
 
-  // Delete a region
 regionsRouter.delete(
     "/:region_id",
     asyncHandler(async (req, res) => {
       console.log(`Deleting region with ID ${req.params.region_id}`);
   
-      const deleteQuery = `DELETE FROM Regions WHERE region_id = ?`;
+      // Delete all cities associated with the region
+      const q1 = `DELETE FROM Region_has_Cities WHERE region_id = ?`;
+      const values1 = [req.params.region_id];
   
-      db.pool.query(deleteQuery, [req.params.region_id], (deleteErr, deleteResult) => {
-        if (deleteErr) {
-          console.log(deleteErr);
-          res.status(500).send(deleteErr.message);
-        } else if (deleteResult.affectedRows === 0) {
-          res.status(404).send("Region not found");
-        } else {
-          res.status(200).send(`Region with ID ${req.params.region_id} deleted successfully`);
+      db.pool.query(q1, values1, (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send(err.message);
+          return;
         }
+  
+        console.log(
+          `Deleted all cities associated with region ${req.params.region_id}`
+        );
+  
+        // Delete the region
+        const q2 = `DELETE FROM Regions WHERE region_id = ?`;
+        const values2 = [req.params.region_id];
+  
+        db.pool.query(q2, values2, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(500).send(err.message);
+            return;
+          }
+  
+          console.log(`Deleted region with ID ${req.params.region_id}`);
+  
+          res
+            .status(200)
+            .send(`Region with ID ${req.params.region_id} deleted successfully`);
+        });
       });
     })
   );
