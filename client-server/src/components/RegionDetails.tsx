@@ -17,9 +17,12 @@ const RegionDetails = ({ currentRegion, all_cities }: prop) => {
   const [showAddCity, setShowAddCity] = useState<boolean>(false);
 
   useEffect(() => {
-    setRegionName(currentRegion.region_name);
-    setRegionDescription(currentRegion.region_description);
-    setCities(currentRegion.cities);
+    if(currentRegion){
+      setRegionName(currentRegion.region_name);
+      setRegionDescription(currentRegion.region_description);
+      setCities(currentRegion.cities);
+    }
+
   }, [currentRegion]);
 
   const removeCity = (city_name: string) => {
@@ -48,7 +51,13 @@ const RegionDetails = ({ currentRegion, all_cities }: prop) => {
         cities,
       };
       console.log(updated_region);
+      if(updated_region.region_id == -1)
+      {
+        const response = await regionsService.createRegion(updated_region);
+      }
+      else{
       const response = await regionsService.updateRegion(updated_region);
+      }
       // now reload the window
       window.location.reload();
     } catch (err) {
@@ -82,7 +91,7 @@ const RegionDetails = ({ currentRegion, all_cities }: prop) => {
   return (
     <>
       <div className="flex flex-col w-3/4 bg-white px-8 py-8 shadow">
-        <h2 className="text-xl font-bold mb-4">{region_name}</h2>
+        <input className="text-xl font-bold mb-4" value={region_name}  onChange={(e) => setRegionName(e.target.value)} />
         <textarea
           className="
           rounded-lg outline outline-offset-2 outline-1 outline-slate-500 focus:outline-blue-500

@@ -4,6 +4,57 @@ import * as db from "../dbcon.mjs";
 
 const regionsRouter = express.Router();
 
+
+regionsRouter.post(
+    "/",
+    asyncHandler(async (req, res) => {
+        console.log('inside add region')
+      const { region_name, region_description, cities } = req.body;
+  
+      if (!region_name || !region_description) {
+        res.status(400).send("Region name and description are required");
+        return;
+      }
+  
+      // Insert the new region into the Regions table
+      const q = `INSERT INTO Regions (region_name, region_description) VALUES (?, ?)`;
+      const values = [region_name, region_description];
+  
+      db.pool.query(q, values, (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send(err.message);
+          return;
+        }
+  
+        console.log(`New region added with ID ${result.insertId}`);
+  
+        // Add cities to the Region_has_Cities table, if provided
+        if (cities && cities.length > 0) {
+          const q2 = `INSERT INTO Region_has_Cities (city_id, region_id) 
+                      SELECT Cities.city_id, ? FROM Cities WHERE Cities.city_name IN (?)`;
+          const values2 = [result.insertId, cities];
+  
+          db.pool.query(q2, values2, (err, result) => {
+            if (err) {
+              console.log(err);
+              res.status(500).send(err.message);
+              return;
+            }
+  
+            console.log(
+              `Added cities to new region with ID ${result.insertId}`
+            );
+          });
+        }
+  
+        res.status(201).send(`New region added with ID ${result.insertId}`);
+      });
+    })
+  );
+  
+  
+
 // get all regions
 regionsRouter.get(
   "/",

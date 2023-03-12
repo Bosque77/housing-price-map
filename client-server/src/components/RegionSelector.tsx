@@ -13,6 +13,15 @@ interface prop {
     const onEdit = (region: Region) => {
       setCurrentRegion(region);
     };
+
+    const onAddRegion = () => {
+      setCurrentRegion({
+        region_id: "-1",
+        region_name: "Update Name",
+        region_description: "",
+        cities: [],
+      });
+    }
   
     const onRegionSelected = (region_id: string) => {
       console.log(region_id);
@@ -62,7 +71,9 @@ interface prop {
                         ))}
                       </tbody>
                     </table>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8"
+                    onClick={onAddRegion}
+                    >
                       Add Region
                     </button>
                   </div>
