@@ -10,8 +10,8 @@
   "/api/hello": "pages/api/hello.js",
   "/api/middleware": "pages/api/middleware.js",
   "/": "pages/index.html",
-  "/admin/regions": "pages/admin/regions.js",
   "/admin/cities": "pages/admin/cities.js",
   "/admin/houses": "pages/admin/houses.js",
+  "/admin/regions": "pages/admin/regions.js",
   "/404": "pages/404.html"
 }
