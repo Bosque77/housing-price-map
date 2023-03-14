@@ -25,6 +25,7 @@ interface prop {
 }
 
 const CitiesPage = ({cities, states}: prop) => {
+  console.log("re-rendering page")
   const [state_cities, setStateCities] = useState(cities);
   const [showCreateCity, setShowCreateCity] = useState(false);
   const [currentCity, setCurrentCity] = useState(undefined);
@@ -119,7 +120,7 @@ const CitiesComponent = ({
                     <tbody>
                       {cities.map((city, index) => (
                         <tr key={city.city_id}>
-                          <td className="border px-4 py-2">{index + 1}</td>
+                          <td className="border px-4 py-2">{city.city_id}</td>
                           <td className="border px-4 py-2">{city.city_name}</td>
                           <td className="border px-4 py-2">{city.state}</td>
                           <td className="px-4">

@@ -76,13 +76,10 @@ const CreateHouse = ({
         city_name: city
       };
 
-      console.log(updated_house)
-      debugger
       const response = await homesService.updateHome(updated_house);
-      console.log(response)
-      debugger
-      setShowCreateHouse(false);
       updateHomes();
+      setShowCreateHouse(false);
+
     } catch (error) {
       console.log(error);
     }
@@ -109,10 +106,8 @@ const CreateHouse = ({
       };
 
       const returned_new_home = await homesService.createHome(new_house);
-      console.log('about to add the returned home')
-      console.log(returned_new_home)
-      setShowCreateHouse(false);
       updateHomes();
+      setShowCreateHouse(false);
     } catch (error) {
       console.log(error);
     }

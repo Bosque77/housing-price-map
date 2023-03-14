@@ -2,16 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin": "pages/admin.html",
-  "/admin/region-statistics": "pages/admin/region-statistics.html",
-  "/admin/zillow-estimates": "pages/admin/zillow-estimates.html",
-  "/api/db-connector": "pages/api/db-connector.js",
-  "/api/db-test": "pages/api/db-test.js",
-  "/api/hello": "pages/api/hello.js",
-  "/api/middleware": "pages/api/middleware.js",
-  "/": "pages/index.html",
   "/admin/cities": "pages/admin/cities.js",
-  "/admin/houses": "pages/admin/houses.js",
-  "/admin/regions": "pages/admin/regions.js",
-  "/404": "pages/404.html"
+  "/admin": "pages/admin.js",
+  "/": "pages/index.js"
 }

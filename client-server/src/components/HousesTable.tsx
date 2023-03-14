@@ -6,6 +6,7 @@ interface prop {
     setShowCreateHouse: React.Dispatch<React.SetStateAction<boolean>>;
     setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     setCurrentCity: React.Dispatch<React.SetStateAction<any>>;
+    updateHomes: () => void;
     cities: City[];
     homes: any;
     setCurrentHouse: React.Dispatch<React.SetStateAction<any>>;
@@ -14,12 +15,11 @@ interface prop {
   const HousesComponent = ({
     setShowCreateHouse,
     setCurrentHouse,
-    setShowDeleteModal,
-    setCurrentCity,
+    updateHomes,
     cities,
     homes,
   }: prop) => {
-    const [homes_state, setHomes] = useState(homes);
+    // const [homes_state, setHomes] = useState(homes);
   
     const onShowHouse = () => {
       console.log("on show house");
@@ -39,54 +39,21 @@ interface prop {
         try{
           console.log('inside the on delete yo')
           const res = await homesService.deleteHome(house.home_id);
-          const new_homes = homes_state.filter((h : House) => h.home_id !== house.home_id);
-          setHomes(new_homes)
-          console.log(res);
+          updateHomes();
         } catch (e) {
           console.log(e);
         }
       }
     };
   
-    const insertCities = () => {
-      return cities.map((city: any) => (
-        <option value={city.city_id} key={city.city_id}>
-          {city.city_name}
-        </option>
-      ));
-    };
-  
-    const onCitySelect = async (city_id: string) => {
-      const current_city = cities.find(
-        (city) => city.city_id === parseInt(city_id)
-      );
-      if (current_city) {
-        setCurrentCity(current_city);
-        try{
-          const homes = await homesService.getHomes(parseInt(city_id));
-          setHomes(homes);
-        }catch (e){
-          console.log(e)
-          setHomes([])
-        }
 
-      }
-    };
   
     return (
       <div>
         <div>
           <div className=" mx-auto py-12">
             <div className="flex flex-col items-center justify-center">
-              <div className="flex mb-6">
-                <label className="mr-3 content-center text-lg">Select City</label>
-                <select
-                  className="border px-4 bg-white text-lg"
-                  onChange={(e) => onCitySelect(e.target.value)}
-                >
-                  {insertCities()}
-                </select>
-              </div>
+
   
               {/* input a table of the homes below */}
               <div className="shadow bg-white px-8 py-8 rounded text-center">
@@ -101,7 +68,7 @@ interface prop {
                     </tr>
                   </thead>
                   <tbody>
-                    {homes_state.map((home: House) => (
+                    {homes.map((home: House) => (
                       <tr key={home.home_id}>
                         <td className="border px-4 py-2">{home.home_id}</td>
                         <td className="border px-4 py-2">{home.street}</td>

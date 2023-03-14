@@ -33,29 +33,42 @@ const HousesPage = ({ cities, input_homes }: prop) => {
   const [homes, setStateHomes] = useState(input_homes);
   const [showCreateHouse, setShowCreateHouse] = useState(false);
   const [currentHouse, setCurrentHouse] = useState(undefined);
-  const [currentCity, setCurrentCity] = useState<City | undefined>(undefined);
+  const [currentCity, setCurrentCity] = useState<City >(cities[0]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [shouldDelete, setShouldDelete] = useState(false);
   const [should_delete_object_name, setShouldDeleteObjectName] = useState("");
 
+  useEffect(() => {
+    console.log('inside the use Effect')
+    updateHomes();
+  }, [currentCity]);
+
   const updateHomes = async () => {
-    // window.location.reload()
-    if (currentCity) {
       console.log("inside call back function updating homes");
       const updated_homes = await homesService.getHomes(
         currentCity.city_id as number
       );
-      console.log(updated_homes);
-
       setStateHomes(updated_homes);
-    } else {
-      const updated_homes = await homesService.getHomes(
-        cities[0].city_id as number
-      );
-      console.log(updated_homes);
+    
+  };
 
-      setStateHomes(updated_homes);
-    }
+  const insertCities = () => {
+    return cities.map((city: any) => (
+      <option value={city.city_id} key={city.city_id}>
+        {city.city_name}
+      </option>
+    ));
+  };
+
+  const onCitySelect = async (city_id: string) => {
+    const selected_city = cities.find(
+      (city) => {
+        return(
+          city.city_id === parseInt(city_id)
+        )
+      }
+    ) as City;
+    setCurrentCity(selected_city);
   };
 
   return (
@@ -65,6 +78,15 @@ const HousesPage = ({ cities, input_homes }: prop) => {
         <SideNav />
 
         <div className="flex flex-col justify-start w-full bg-gray-50 mt-4">
+          <div className="flex mb-6">
+            <label className="mr-3 content-center text-lg">Select City</label>
+            <select
+              className="border px-4 bg-white text-lg"
+              onChange={(e) => onCitySelect(e.target.value)}
+            >
+              {insertCities()}
+            </select>
+          </div>
           {cities.length === 0 && homes.length === 0 && (
             <div className="flex flex-col justify-center items-center w-full">
               <h1 className="text-2xl font-bold">No cities or homes found</h1>
@@ -79,6 +101,7 @@ const HousesPage = ({ cities, input_homes }: prop) => {
             setShowDeleteModal={setShowDeleteModal}
             setCurrentCity={setCurrentCity}
             cities={cities}
+            updateHomes={updateHomes}
             homes={homes}
           />
         </div>
