@@ -75,16 +75,26 @@ statesRouter.post("/", asyncHandler(async (req, res) => {
     return;
   }
 
-  const q = `INSERT INTO States (name) VALUES (?)`;
+  const insertQuery = `INSERT INTO States (name) VALUES (?)`;
   const values = [name];
 
-  db.pool.query(q, values, (err, result) => {
+  db.pool.query(insertQuery, values, (err, result) => {
     if (err) {
       console.log(err);
       res.status(500).send(err.message);
     } else {
       const newStateId = result.insertId;
-      res.status(201).send(`New state added with ID ${newStateId}`);
+
+      // Select the newly created state using the last insert ID
+      const selectQuery = `SELECT * FROM States WHERE state_id = ?`;
+      db.pool.query(selectQuery, [newStateId], (selectErr, selectResult) => {
+        if (selectErr) {
+          console.log(selectErr);
+          res.status(500).send(selectErr.message);
+        } else {
+          res.status(201).json(selectResult[0]); // Send the newly created state object
+        }
+      });
     }
   });
 }));

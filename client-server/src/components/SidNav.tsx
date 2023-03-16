@@ -16,6 +16,9 @@ const SideNav = () => {
           <Link className="block text-black py-3 px-6 hover:bg-gray-700 hover:text-white" href="/admin/cities">Cities</Link>
         </li>
         <li>
+          <Link className="block text-black py-3 px-6 hover:bg-gray-700 hover:text-white" href="/admin/states">States</Link>
+        </li>
+        <li>
           <Link className="block text-black py-3 px-6 hover:bg-gray-700 hover:text-white" href="/admin/zillow-estimates">
             Zillow Estimates
           </Link>

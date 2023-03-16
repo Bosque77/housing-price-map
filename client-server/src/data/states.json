@@ -1,0 +1,24 @@
+
+[
+    {
+      "state_id": 1,
+      "name": "California"
+    },
+    {
+      "state_id": 2,
+      "name": "Texas"
+    },
+    {
+      "state_id": 3,
+      "name": "New York"
+    },
+    {
+      "state_id": 4,
+      "name": "Florida"
+    },
+    {
+      "state_id": 5,
+      "name": "Illinois"
+    }
+  ]
+  
