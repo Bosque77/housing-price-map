@@ -32,7 +32,7 @@ export interface State {
 }
 
 export interface ZillowEstimate {
-    zillow_price_id: number;
+    zillow_price_id?: number;
     zestimate: number;
     date: string;
     home_id: number;

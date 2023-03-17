@@ -36,7 +36,7 @@ const ZillowEstimateRow = ({ zillowEstimate, onDelete, onUpdate }: ZillowEstimat
           </button>
           <button
             className="w-6 h-6 text-red-500 ml-4 transition-colors duration-150 hover:text-red-600"
-            onClick={() => onDelete(zillowEstimate.zillow_price_id)}
+            onClick={() => onDelete(zillowEstimate.zillow_price_id as number)}
           >
             <RiDeleteBin6Line />
           </button>

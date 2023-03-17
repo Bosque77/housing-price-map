@@ -13,28 +13,26 @@ const ZillowEstimateForm = ({
   zillowEstimateToEdit,
   houses,
 }: ZillowEstimateFormProps) => {
-  const [zestimate, setZestimate] = useState<string | number>("");
-  const [date, setDate] = useState(zillowEstimateToEdit?.date || "");
-  const [home_id, setHomeId] = useState(zillowEstimateToEdit?.home_id || "");
+  const [zestimate, setZestimate] = useState<number | undefined>(undefined);
+  const [date, setDate] = useState<string | undefined>(undefined);
+  const [home_id, setHomeId] = useState<number | undefined>( undefined);
 
   useEffect(() => {
     if (zillowEstimateToEdit) {
       setZestimate(zillowEstimateToEdit.zestimate);
       setDate(zillowEstimateToEdit.date);
       setHomeId(zillowEstimateToEdit.home_id);
-    } else {
-      setZestimate("");
-      setDate("");
-      setHomeId("");
-    }
+    } 
   }, [zillowEstimateToEdit]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if(!zestimate || !date || !home_id) return;
+
     onSubmit({ zestimate, date, home_id });
-    setZestimate("");
-    setDate("");
-    setHomeId("");
+    setZestimate(undefined);
+    setDate(undefined);
+    setHomeId(undefined);
   };
   
 
@@ -48,7 +46,7 @@ const ZillowEstimateForm = ({
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="number"
               value={zestimate}
-              onChange={(e) => setZestimate(e.target.valueAsNumber || e.target.value)}
+              onChange={(e) => setZestimate(e.target.valueAsNumber)}
             />
           </div>
           <div className="mb-4">
@@ -65,7 +63,7 @@ const ZillowEstimateForm = ({
             <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               value={home_id}
-              onChange={(e) => setHomeId(e.target.value)}
+              onChange={(e) => setHomeId(parseInt(e.target.value))}
             >
               <option value="">Select a house</option>
               {houses.map((house) => (
