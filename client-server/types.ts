@@ -30,3 +30,10 @@ export interface State {
     state_id?: number;
     name: string;
 }
+
+export interface ZillowEstimate {
+    zillow_price_id: number;
+    zestimate: number;
+    date: string;
+    home_id: number;
+  }

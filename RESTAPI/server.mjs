@@ -7,6 +7,7 @@ import citiesRouter from "./controllers/cities-controller.mjs";
 import statesRouter from "./controllers/states-controller.mjs";
 import homesRouter from "./controllers/homes-controller.mjs";
 import regionsRouter from "./controllers/regions-controller.mjs";
+import zillowRouter from "./controllers/zillow-estimates-controller.mjs";
 
 // Express
 
@@ -22,6 +23,7 @@ app.use('/api/Cities', citiesRouter)
 app.use('/api/States', statesRouter)
 app.use('/api/Homes', homesRouter)
 app.use('/api/Regions', regionsRouter)
+app.use('/api/Zillow-Estimates', zillowRouter)
 
 
 
