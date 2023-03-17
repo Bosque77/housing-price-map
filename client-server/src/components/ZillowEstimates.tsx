@@ -1,21 +1,35 @@
 import { ZillowEstimate } from "types";
 import ZillowEstimateRow from "./ZillowEstimateRow";
+import ZillowEstimateForm from "./ZillowEstimateForm";
+import { useState } from "react";
+import { House } from "types";
 
 interface ZillowEstimatesProps {
   zillowEstimates: ZillowEstimate[];
+  houses: House[];
   onCreate: (zillowEstimate: ZillowEstimate) => void;
-    onUpdate: (zillowEstimate: ZillowEstimate) => void;
+  onUpdate: (zillowEstimate: ZillowEstimate) => void;
   onDelete: (zillow_price_id: number) => void;
 }
 
 const ZillowEstimates = ({
   zillowEstimates,
+  houses,
   onCreate,
   onUpdate,
   onDelete,
 }: ZillowEstimatesProps) => {
+
+    const [isFormVisible, setIsFormVisible] = useState(false);
+
   return (
     <div className="w-full p-4">
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+        onClick={() => setIsFormVisible(true)}
+      >
+        Create New
+      </button>
       {zillowEstimates.length > 0 ? (
         <table className="w-full table-auto">
           <thead>
@@ -32,6 +46,7 @@ const ZillowEstimates = ({
                 key={zillowEstimate.zillow_price_id}
                 zillowEstimate={zillowEstimate}
                 onDelete={onDelete}
+                onUpdate={onUpdate}
               />
             ))}
           </tbody>
@@ -42,6 +57,7 @@ const ZillowEstimates = ({
           <p className="text-sm">No Zillow estimates exist right now. Please add one using the form above.</p>
         </div>
       )}
+    {isFormVisible && <ZillowEstimateForm onSubmit={onCreate}  houses={houses}  />}
     </div>
   );
 };

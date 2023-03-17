@@ -1,88 +1,91 @@
 import { useState, useEffect } from "react";
-import { ZillowEstimate } from "types";
+import { ZillowEstimate, House } from "types";
+
 
 interface ZillowEstimateFormProps {
-  zillowEstimate?: ZillowEstimate;
   onSubmit: (zillowEstimate: ZillowEstimate) => void;
-  onCancel?: () => void;
+  zillowEstimateToEdit?: ZillowEstimate;
+  houses: House[];
 }
 
 const ZillowEstimateForm = ({
-  zillowEstimate,
   onSubmit,
-  onCancel,
+  zillowEstimateToEdit,
+  houses,
 }: ZillowEstimateFormProps) => {
-  const [zestimate, setZestimate] = useState<number | undefined>(
-    zillowEstimate?.zestimate
-  );
-  const [date, setDate] = useState<string | undefined>(zillowEstimate?.date);
-  const [homeId, setHomeId] = useState<number | undefined>(zillowEstimate?.home_id);
+  const [zestimate, setZestimate] = useState<string | number>("");
+  const [date, setDate] = useState(zillowEstimateToEdit?.date || "");
+  const [home_id, setHomeId] = useState(zillowEstimateToEdit?.home_id || "");
 
   useEffect(() => {
-    if (zillowEstimate) {
-      setZestimate(zillowEstimate.zestimate);
-      setDate(zillowEstimate.date);
-      setHomeId(zillowEstimate.home_id);
+    if (zillowEstimateToEdit) {
+      setZestimate(zillowEstimateToEdit.zestimate);
+      setDate(zillowEstimateToEdit.date);
+      setHomeId(zillowEstimateToEdit.home_id);
+    } else {
+      setZestimate("");
+      setDate("");
+      setHomeId("");
     }
-  }, [zillowEstimate]);
+  }, [zillowEstimateToEdit]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (zestimate !== undefined && date !== undefined && homeId !== undefined) {
-      onSubmit({
-        zillow_price_id: zillowEstimate?.zillow_price_id ?? 0,
-        zestimate,
-        date,
-        home_id: homeId,
-      });
-      setZestimate(undefined);
-      setDate(undefined);
-      setHomeId(undefined);
-    }
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit({ zestimate, date, home_id });
+    setZestimate("");
+    setDate("");
+    setHomeId("");
   };
+  
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
-      <label htmlFor="zestimate">Zestimate:</label>
-      <input
-        id="zestimate"
-        type="number"
-        step="0.01"
-        value={zestimate ?? ""}
-        onChange={(e) => setZestimate(parseFloat(e.target.value))}
-        required
-      />
-      <label htmlFor="date">Date:</label>
-      <input
-        id="date"
-        type="date"
-        value={date ?? ""}
-        onChange={(e) => setDate(e.target.value)}
-        required
-      />
-      <label htmlFor="homeId">Home ID:</label>
-      <input
-        id="homeId"
-        type="number"
-        value={homeId ?? ""}
-        onChange={(e) => setHomeId(parseInt(e.target.value))}
-        required
-      />
-      <div className="flex space-x-2 mt-4">
-        <button type="submit" className="bg-green-500 text-white py-1 px-4 rounded">
-          {zillowEstimate ? "Update" : "Create"}
-        </button>
-        {onCancel && (
-          <button
-            type="button"
-            className="bg-gray-500 text-white py-1 px-4 rounded"
-            onClick={onCancel}
-          >
-            Cancel
-          </button>
-        )}
+    <div className="fixed inset-0 bg-black opacity-50 z-10">
+      <div className="flex justify-center items-center h-screen">
+        <form className="bg-white p-8 rounded-lg w-1/3" onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Zestimate</label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              type="number"
+              value={zestimate}
+              onChange={(e) => setZestimate(e.target.valueAsNumber || e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Date</label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Home ID</label>
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value={home_id}
+              onChange={(e) => setHomeId(e.target.value)}
+            >
+              <option value="">Select a house</option>
+              {houses.map((house) => (
+                <option key={house.home_id} value={house.home_id}>
+                  {house.home_id}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              {zillowEstimateToEdit ? "Update" : "Create"}
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 

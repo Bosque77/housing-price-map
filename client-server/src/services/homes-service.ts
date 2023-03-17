@@ -19,6 +19,12 @@ export const createHome = async (house: House) => {
   return response.data;
 };
 
+export const getAllHomes = async () => {
+  const response = await axios.get(url);
+  console.log('Request URL:', response.config.url);
+  return response.data
+};
+
 export const getHomes = async (city_id: number) => {
   const response = await axios.get(url+`/${city_id}`);
   console.log('Request URL:', response.config.url);
@@ -35,4 +41,4 @@ export const deleteHome = async (home_id: number) => {
   return response.data;
 };
 
-export default { getHomes,  deleteHome, updateHome, createHome };
+export default { getHomes,  deleteHome, updateHome, createHome, getAllHomes };

@@ -1,50 +1,44 @@
 import { ZillowEstimate } from "types";
+import { AiOutlineEdit } from "react-icons/ai";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface ZillowEstimateRowProps {
   zillowEstimate: ZillowEstimate;
   onDelete: (zillow_price_id: number) => void;
+  onUpdate: (zillowEstimate: ZillowEstimate) => void;
 }
 
-const ZillowEstimateRow = ({ zillowEstimate, onDelete }: ZillowEstimateRowProps) => {
-  const { zillow_price_id, zestimate, date, home_id } = zillowEstimate;
-
+const ZillowEstimateRow = ({ zillowEstimate, onDelete, onUpdate }: ZillowEstimateRowProps) => {
   return (
     <tr className="border-b border-gray-200 hover:bg-gray-100">
       <td className="py-3 px-6 text-left whitespace-nowrap">
         <div className="flex items-center">
-          <span className="font-medium">${zestimate.toFixed(2)}</span>
+          <span className="font-medium">${zillowEstimate.zestimate.toFixed(2)}</span>
         </div>
       </td>
       <td className="py-3 px-6 text-left">
         <div className="flex items-center">
-          <span>{new Date(date).toLocaleDateString()}</span>
+          <span>{zillowEstimate.date}</span>
         </div>
       </td>
       <td className="py-3 px-6 text-left">
         <div className="flex items-center">
-          <span>{home_id}</span>
+          <span>{zillowEstimate.home_id}</span>
         </div>
       </td>
       <td className="py-3 px-6 text-center">
         <div className="flex item-center justify-center">
           <button
-            onClick={() => onDelete(zillow_price_id)}
-            className="w-4 mr-2 transform hover:text-red-500 hover:scale-110"
+            className="w-6 h-6 text-yellow-500 transition-colors duration-150 hover:text-yellow-600"
+            onClick={() => onUpdate(zillowEstimate)}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-              />
-            </svg>
+            <AiOutlineEdit />
+          </button>
+          <button
+            className="w-6 h-6 text-red-500 ml-4 transition-colors duration-150 hover:text-red-600"
+            onClick={() => onDelete(zillowEstimate.zillow_price_id)}
+          >
+            <RiDeleteBin6Line />
           </button>
         </div>
       </td>
