@@ -5,8 +5,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const RegionStatisticsPage = () => {
-  // ...
-
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
