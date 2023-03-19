@@ -213,3 +213,84 @@ const RegionStatisticsPage = () => {
   );
 };
 
+const RegionStatistics = () => {
+  const [statistics, setStatistics] = useState([]);
+  const [selectedStatistic, setSelectedStatistic] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    fetchRegionStatistics();
+  }, []);
+
+  const fetchRegionStatistics = async () => {
+    // Replace with your API endpoint
+    const response = await axios.get("/api/region-statistics");
+    setStatistics(response.data);
+  };
+
+  const createRegionStatistic = async (statistic) => {
+    // Replace with your API endpoint
+    await axios.post("/api/region-statistics", statistic);
+    fetchRegionStatistics();
+  };
+
+  const updateRegionStatistic = async (statistic) => {
+    // Replace with your API endpoint
+    await axios.put(`/api/region-statistics/${statistic.region_statistic_id}`, statistic);
+    fetchRegionStatistics();
+  };
+
+  const handleDelete = async (region_statistic_id) => {
+    // Replace with your API endpoint
+    await axios.delete(`/api/region-statistics/${region_statistic_id}`);
+    fetchRegionStatistics();
+  };
+
+  const openCreateModal = () => {
+    setIsEdit(false);
+    setSelectedStatistic(null);
+    setShowModal(true);
+  };
+
+  const openEditModal = (statistic) => {
+    setIsEdit(true);
+    setSelectedStatistic(statistic);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <>
+      <div className="container mx-auto mt-8">
+        {/* Add Region Statistic Button */}
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+          onClick={openCreateModal}
+        >
+          Add Region Statistic
+        </button>
+
+        {/* Region Statistics Table */}
+        <table className="table-auto w-full">
+          {/* Table header and body */}
+          {/* ... */}
+        </table>
+      </div>
+
+      <RegionStatisticModal
+        isEdit={isEdit}
+        showModal={showModal}
+        closeModal={closeModal}
+        handleSubmit={isEdit ? updateRegionStatistic : createRegionStatistic}
+        selectedStatistic={selectedStatistic}
+      />
+    </>
+  );
+};
+
+
+export default RegionStatisticsPage;
