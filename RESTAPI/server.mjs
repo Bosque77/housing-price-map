@@ -8,6 +8,7 @@ import statesRouter from "./controllers/states-controller.mjs";
 import homesRouter from "./controllers/homes-controller.mjs";
 import regionsRouter from "./controllers/regions-controller.mjs";
 import zillowRouter from "./controllers/zillow-estimates-controller.mjs";
+import regionStatisticsRouter from "./controllers/region-statistics-controller.mjs";
 
 // Express
 
@@ -24,7 +25,7 @@ app.use('/api/States', statesRouter)
 app.use('/api/Homes', homesRouter)
 app.use('/api/Regions', regionsRouter)
 app.use('/api/Zillow-Estimates', zillowRouter)
-
+app.use('/api/Region-Statistics', regionStatisticsRouter)
 
 
 app.get("/*", (req, res) => {
