@@ -42,12 +42,12 @@ const RegionStatistics = () => {
     fetchRegionStatistics();
   };
 
-  const updateRegionStatistic = async (statistic) => {
-    
-    await axios.put(`http://localhost:9178/api/region-statistics/${statistic.region_statistic_id}`, statistic);
+  const updateRegionStatistic = async (updatedStatistic) => {
+    const { region_statistic_id } = selectedStatistic;
+    await axios.put(`http://localhost:9178/api/region-statistics/${region_statistic_id}`, updatedStatistic);
     fetchRegionStatistics();
   };
-
+  
   const handleDelete = async (region_statistic_id) => {
     
     await axios.delete(`http://localhost:9178/api/region-statistics/${region_statistic_id}`);
