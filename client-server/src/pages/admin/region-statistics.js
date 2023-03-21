@@ -30,25 +30,25 @@ const RegionStatistics = () => {
 
   const fetchRegionStatistics = async () => {
     
-    const response = await axios.get("http://localhost:9178/api/region-statistics");
+    const response = await axios.get("http://flip1.engr.oregonstate.edu:9178/api/region-statistics");
     setStatistics(response.data);
   };
 
   const createRegionStatistic = async (statistic) => {
     
-    await axios.post("http://localhost:9178/api/region-statistics", statistic);
+    await axios.post("http://flip1.engr.oregonstate.edu:9178/region-statistics", statistic);
     fetchRegionStatistics();
   };
 
   const updateRegionStatistic = async (updatedStatistic) => {
     const { region_statistic_id } = selectedStatistic;
-    await axios.put(`http://localhost:9178/api/region-statistics/${region_statistic_id}`, updatedStatistic);
+    await axios.put(`http://flip1.engr.oregonstate.edu:9178/api/region-statistics/${region_statistic_id}`, updatedStatistic);
     fetchRegionStatistics();
   };
   
   const handleDelete = async (region_statistic_id) => {
     
-    await axios.delete(`http://localhost:9178/api/region-statistics/${region_statistic_id}`);
+    await axios.delete(`http://flip1.engr.oregonstate.edu:9178/api/region-statistics/${region_statistic_id}`);
     fetchRegionStatistics();
   };
 
